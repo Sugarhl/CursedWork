@@ -10,7 +10,7 @@ class InputField extends StatelessWidget {
   InputField({
     required this.label,
     required this.hintText,
-    required this.controller,
+    this.controller,
     this.focus = false,
     this.onChanged,
     Key? key,
@@ -21,6 +21,7 @@ class InputField extends StatelessWidget {
     this.enabled = true,
     this.datePicker = false,
     this.errorString,
+    this.capitalization = TextCapitalization.none,
   }) : super(key: key);
 
   final String label;
@@ -30,7 +31,8 @@ class InputField extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final bool focus;
   final ValueChanged<String>? onChanged;
-  final TextEditingController controller;
+  final TextEditingController? controller;
+  final TextCapitalization? capitalization;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final bool enabled;
@@ -52,7 +54,7 @@ class InputField extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: AppTextStyles.button1().copyWith(color: AppColors.light),
+                style: AppTextStyles.button1(),
               ),
               const Spacer(),
               if (errorString != null)
@@ -91,7 +93,7 @@ class InputField extends StatelessWidget {
             inputFormatters: datePicker ? [_dateFormatter] : inputFormatters,
             onEditingComplete: () {
               final currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus && !focus) {
+              if (!currentFocus.hasPrimaryFocus ) {
                 currentFocus.unfocus();
               }
             },
@@ -115,15 +117,15 @@ class InputField extends StatelessWidget {
           showDatePicker(
             context: context,
             initialDate: DateTime(2000),
-            firstDate: leftBound,
-            lastDate: rightBound,
+            firstDate: DateBounds.left,
+            lastDate: DateBounds.right,
           ).then((date) {
             _date = date!;
             final _day = NumberFormat('00').format(_date.day);
             final _month = NumberFormat('00').format(_date.month);
             final _year = NumberFormat('0000').format(_date.year);
             final dateLabel = '$_day.$_month.$_year';
-            controller.text = dateLabel;
+            controller?.text = dateLabel;
           });
         },
       );

@@ -32,7 +32,7 @@ abstract class AppTextStyles {
     double fontSize = 18.0,
     FontWeight fontWeight = FontWeight.w700,
     double height = 18.0 / 18.0,
-    Color color = const Color(0xff2B2D33),
+    Color color = AppColors.light,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,

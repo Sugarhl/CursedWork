@@ -1,27 +1,25 @@
+import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class AppButton extends StatefulWidget {
-  const AppButton({
-    this.text = 'Продолжить',
+class GenderButton extends StatefulWidget {
+  const GenderButton({
+    required this.gender,
     required this.onTap,
-    required this.unlocked,
-    this.swapColors = false,
+    required this.active,
     Key? key,
-    this.height = 50,
   }) : super(key: key);
 
-  final String text;
-  final double height;
+  final Gender gender;
   final VoidCallback onTap;
-  final bool unlocked;
-  final bool swapColors;
+  final bool active;
 
   @override
-  State<AppButton> createState() => _AppButtonState();
+  State<GenderButton> createState() => _GenderButtonState();
 }
 
-class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
+class _GenderButtonState extends State<GenderButton> with TickerProviderStateMixin {
   late AnimationController _animationController;
 
   double get scale => 1 - _animationController.value;
@@ -31,7 +29,6 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 50),
       vsync: this,
-      lowerBound: 0,
       upperBound: 0.1,
     )..addListener(() {
         setState(() {});
@@ -49,7 +46,7 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.unlocked) {
+        if (!widget.active) {
           widget.onTap.call();
         }
       },
@@ -59,11 +56,12 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
       child: Transform.scale(
         scale: scale,
         child: Container(
-          height: widget.height,
+          height: 45,
+          width: 45,
           decoration: BoxDecoration(
-            color: widget.unlocked & !widget.swapColors
+            color: widget.active
                 ? AppColors.red
-                : AppColors.light.withOpacity(!widget.swapColors ? 0.7 : 0.9),
+                : AppColors.light.withOpacity(0.7),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
@@ -74,13 +72,9 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
             ],
           ),
           child: Center(
-            child: Text(
-              widget.text,
-              style: AppTextStyles.button1().copyWith(
-                color: widget.unlocked & !widget.swapColors
-                    ? AppColors.white
-                    : AppColors.red,
-              ),
+            child: SvgPicture.asset(
+              'assets/${widget.gender == Gender.male ? 'male' : 'female'}.svg',
+              color: widget.active ? AppColors.light : AppColors.red,
             ),
           ),
         ),
@@ -93,7 +87,7 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
   }
 
   void onTapDown(TapDownDetails details) {
-    if (widget.unlocked) {
+    if (!widget.active) {
       _animationController.forward();
     }
   }

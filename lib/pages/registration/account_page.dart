@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/navigation/router.dart';
+import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
-import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:get/get.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -14,10 +20,18 @@ class AccountPage extends StatefulWidget {
 class AccountPageState extends State<AccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nicknameController = TextEditingController();
+  final visible = false.obs;
 
   @override
   void initState() {
     super.initState();
+    final keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardVisibilityController.onChange.listen((vis) {
+      if (vis == false) {
+        sleep(Durations.button);
+      }
+      visible.value = !vis;
+    });
   }
 
   @override
@@ -31,13 +45,19 @@ class AccountPageState extends State<AccountPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(leftAction: () {}),
+              const SizedBox(height: 52),
+              // TopBar(
+              //   leftAction: () {
+              //     // context.navigateBack();
+              //   },
+              // ),
               const SizedBox(height: 113),
               Text('Аккаунт', style: AppTextStyles.heading2()),
               const SizedBox(height: 34),
               InputField(
                 label: 'Почта',
                 hintText: 'Введите почту',
+                keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 focus: true,
                 onChanged: (s) {
@@ -48,6 +68,7 @@ class AccountPageState extends State<AccountPage> {
               InputField(
                 label: 'Никнейм',
                 hintText: 'Введите никнейм',
+                keyboardType: TextInputType.text,
                 controller: nicknameController,
                 focus: true,
                 onChanged: (s) {
@@ -55,15 +76,17 @@ class AccountPageState extends State<AccountPage> {
                 },
               ),
               const Spacer(),
-              AppButton(
-                onTap: () async {
-                  // if (controller.text.isNotEmpty) {
-                  //   settings.initProfile();
-                  //   await context.navigateTo(UserPreferencesRouter());
-                  // }
-                },
-                unlocked: emailController.text.isNotEmpty &&
-                    nicknameController.text.isNotEmpty,
+              Obx(
+                () => Visibility(
+                  visible: visible.value,
+                  child: AppButton(
+                    onTap: () {
+                      context.navigateTo(const PasswordRouter());
+                    },
+                    unlocked: emailController.text.isNotEmpty &&
+                        nicknameController.text.isNotEmpty,
+                  ),
+                ),
               ),
               const SizedBox(height: 30),
             ],
