@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
-import 'package:cursed_work/navigation/router.dart';
+import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';

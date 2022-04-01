@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
+import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/gender_button.dart';
@@ -17,13 +19,23 @@ class BiometricsPage extends StatefulWidget {
 
 class BiometricsPageState extends State<BiometricsPage> {
   final SettingsController _settingsController = Get.find();
-  final TextEditingController heightController = TextEditingController();
-  final TextEditingController weightController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    _heightController.addListener(setActive);
+    _weightController.addListener(setActive);
   }
+
+  void setActive() {
+    activeButton.value =
+        _heightController.text.isNotEmpty && _weightController.text.isNotEmpty;
+  }
+
+  final activeButton = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +60,7 @@ class BiometricsPageState extends State<BiometricsPage> {
                   InputField(
                     label: 'Рост',
                     hintText: 'Введите рост',
-                    controller: heightController,
+                    controller: _heightController,
                     focus: true,
                     onChanged: (s) {
                       setState(() {});
@@ -58,7 +70,7 @@ class BiometricsPageState extends State<BiometricsPage> {
                   InputField(
                     label: 'Вес',
                     hintText: 'Введите вес',
-                    controller: weightController,
+                    controller: _weightController,
                     focus: true,
                   ),
                   const SizedBox(height: 47),
@@ -72,7 +84,8 @@ class BiometricsPageState extends State<BiometricsPage> {
                         () => GenderButton(
                           gender: Gender.male,
                           onTap: _settingsController.changeGender,
-                          active: _settingsController.gender.value == Gender.male,
+                          active:
+                              _settingsController.gender.value == Gender.male,
                         ),
                       ),
                       const SizedBox(
@@ -89,10 +102,13 @@ class BiometricsPageState extends State<BiometricsPage> {
                     ],
                   ),
                   const SizedBox(height: 111),
-                  AppButton(
-                    onTap: () async {},
-                    unlocked: heightController.text.isNotEmpty &&
-                        weightController.text.isNotEmpty,
+                  Obx(
+                    () => AppButton(
+                      onTap: () {
+                        context.navigateTo(const AvatarRouter());
+                      },
+                      unlocked: activeButton.value,
+                    ),
                   ),
                   const SizedBox(height: 50),
                 ],

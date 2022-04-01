@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
+import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_size/flutter_keyboard_size.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-
-import 'navigation/router.dart';
 
 void main() {
   runApp(MyApp());

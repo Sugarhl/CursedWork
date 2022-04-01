@@ -2,12 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/pages/init_page.dart';
 import 'package:cursed_work/pages/login_page.dart';
 import 'package:cursed_work/pages/registration/account_page.dart';
+import 'package:cursed_work/pages/registration/avatar_page.dart';
 import 'package:cursed_work/pages/registration/biometrics_page.dart';
 import 'package:cursed_work/pages/registration/password_page.dart';
 import 'package:cursed_work/pages/registration/personal_data_page.dart';
-import 'package:flutter/cupertino.dart';
-
-part 'router.gr.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
@@ -36,6 +34,11 @@ part 'router.gr.dart';
           path: 'BiometricsPage',
           name: 'BiometricsRouter',
           page: BiometricsPage,
+        ),
+        AutoRoute(
+          path: 'AvatarPage',
+          name: 'AvatarRouter',
+          page: AvatarPage,
         ),
         AutoRoute(
           path: 'LoginPage',
