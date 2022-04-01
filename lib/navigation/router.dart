@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/pages/init_page.dart';
 import 'package:cursed_work/pages/login_page.dart';
+import 'package:cursed_work/pages/profile/settings_page.dart';
 import 'package:cursed_work/pages/registration/account_page.dart';
 import 'package:cursed_work/pages/registration/avatar_page.dart';
 import 'package:cursed_work/pages/registration/biometrics_page.dart';
 import 'package:cursed_work/pages/registration/password_page.dart';
 import 'package:cursed_work/pages/registration/personal_data_page.dart';
+import 'package:cursed_work/pages/welcome_page.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
@@ -44,6 +46,16 @@ import 'package:cursed_work/pages/registration/personal_data_page.dart';
           path: 'LoginPage',
           name: 'LoginRouter',
           page: LoginPage,
+        ),
+        AutoRoute(
+          path: 'SettingsPage',
+          name: 'SettingsRouter',
+          page: SettingsPage,
+        ),
+        AutoRoute(
+          path: 'WelcomePage',
+          name: 'WelcomeRouter',
+          page: WelcomePage,
         ),
         // AutoRoute(
         //   path: 'main',

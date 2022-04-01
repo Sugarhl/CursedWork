@@ -1,5 +1,2 @@
-enum Gender {
-  none,
-  male,
-  female,
-}
+enum Gender { none, male, female }
+enum SettingsMenuAction { logout }

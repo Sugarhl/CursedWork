@@ -15,24 +15,24 @@ class PersonalDataPage extends StatefulWidget {
 }
 
 class PersonalDataPageState extends State<PersonalDataPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  final activeButton = false.obs;
+  final _nameController = TextEditingController();
+  final _surnameController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _activeButton = false.obs;
 
   @override
   void initState() {
     super.initState();
 
-    nameController.addListener(setActive);
-    surnameController.addListener(setActive);
-    dateController.addListener(setActive);
+    _nameController.addListener(setActive);
+    _surnameController.addListener(setActive);
+    _dateController.addListener(setActive);
   }
 
   void setActive() {
-    activeButton.value = nameController.text.isNotEmpty &&
-        surnameController.text.isNotEmpty &&
-        dateController.text.isNotEmpty;
+    _activeButton.value = _nameController.text.isNotEmpty &&
+        _surnameController.text.isNotEmpty &&
+        _dateController.text.isNotEmpty;
   }
 
   @override
@@ -62,7 +62,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                   InputField(
                     label: 'Имя',
                     hintText: 'Введите имя',
-                    controller: nameController,
+                    controller: _nameController,
                     keyboardType: TextInputType.text,
                     capitalization: TextCapitalization.sentences,
                     focus: true,
@@ -72,7 +72,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     label: 'Фамилия',
                     hintText: 'Введите пароль еще раз',
                     keyboardType: TextInputType.text,
-                    controller: surnameController,
+                    controller: _surnameController,
                     focus: true,
                   ),
                   const SizedBox(height: 47),
@@ -80,7 +80,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     label: 'Дата рождения',
                     hintText: 'ДД.ММ.ГГГГ',
                     keyboardType: TextInputType.datetime,
-                    controller: dateController,
+                    controller: _dateController,
                     focus: true,
                     datePicker: true,
                   ),
@@ -90,7 +90,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                       onTap: () {
                         context.navigateTo(const BiometricsRouter());
                       },
-                      unlocked: activeButton.value,
+                      unlocked: _activeButton.value,
                     ),
                   ),
                   const SizedBox(height: 30),

@@ -6,6 +6,7 @@ import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
+import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,11 @@ class LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 52),
+              TopBar(
+                leftAction: () {
+                  context.navigateBack();
+                },
+              ),
               const SizedBox(height: 113),
               Text('Вход', style: AppTextStyles.heading2()),
               const SizedBox(height: 34),
@@ -95,7 +100,7 @@ class LoginPageState extends State<LoginPage> {
                   child: AppButton(
                     text: 'Войти через Google',
                     onTap: () {
-                      context.navigateTo(const AvatarRouter());
+                      context.navigateTo(const SettingsRouter());
                     },
                     unlocked: true,
                     swapColors: true,

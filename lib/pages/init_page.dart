@@ -21,10 +21,10 @@ class InitPageState extends State<InitPage> {
       Get.find<CredentialsRepository>().state.listen((state) {
         if (Get.find<CredentialsRepository>().state.value ==
             CredentialsState.loggedIn) {
-          context.router.replaceAll([]);
+          context.router.replaceAll([const SettingsRouter()]);
         } else if (Get.find<CredentialsRepository>().state.value ==
             CredentialsState.loggedOut) {
-          context.router.replaceAll([const LoginRouter()]);
+          context.router.replaceAll([const WelcomeRouter()]);
         }
       }),
     );

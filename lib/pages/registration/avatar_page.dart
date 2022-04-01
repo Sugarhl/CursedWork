@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/avatar_adder.dart';
@@ -24,6 +25,7 @@ class AvatarPageState extends State<AvatarPage> {
   final path = ''.obs;
   final loading = true.obs;
   final ImagePicker _picker = ImagePicker();
+  final SettingsController _settingsController = Get.find();
 
   @override
   Widget build(BuildContext context) {

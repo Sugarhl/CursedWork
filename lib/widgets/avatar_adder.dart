@@ -14,6 +14,7 @@ class AvatarAdder extends StatelessWidget {
     required this.localPath,
     this.remotePath,
     required this.loading,
+    this.smallCamera = false,
   }) : super(key: key);
 
   final double? progress;
@@ -21,6 +22,7 @@ class AvatarAdder extends StatelessWidget {
   final String localPath;
   final String? remotePath;
   final bool loading;
+  final bool smallCamera;
 
   final void Function()? onPressed;
 
@@ -54,27 +56,52 @@ class AvatarAdder extends StatelessWidget {
                       : back,
             ),
           ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Container(
-                height: 35,
-                decoration: BoxDecoration(
-                  color: AppColors.light.withOpacity(0.6),
-                  shape: BoxShape.circle,
+          if (smallCamera)
+            Positioned(
+              top: size / 2 + 25,
+              child: Center(
+                child: IgnorePointer(
+                  child: Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: AppColors.light.withOpacity(0.6),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Align(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: SvgPicture.asset(
+                          'assets/camera_plus.svg',
+                          width: 30,
+                          height: 30,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                child: Align(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: SvgPicture.asset(
-                      'assets/camera_plus.svg',
-                      width: 30,
-                      height: 30,
+              ),
+            )
+          else
+            Positioned.fill(
+              child: IgnorePointer(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.light.withOpacity(0.6),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Align(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: SvgPicture.asset(
+                        'assets/camera_plus.svg',
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

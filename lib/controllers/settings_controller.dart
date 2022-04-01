@@ -10,7 +10,8 @@ class SettingsController extends GetxController {
   final height = Int64(170).obs;
   final weight = Int64(1).obs;
   final gender = Gender.male.obs;
-  final avatar = ''.obs;
+  final avatarRemote = ''.obs;
+  final avatarLocal = ''.obs;
 
   final CredentialsRepository credentialsRepository = Get.find();
 
