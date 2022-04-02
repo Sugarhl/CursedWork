@@ -6,7 +6,10 @@ import 'package:get/get.dart';
 class SettingsController extends GetxController {
   final loaded = true.obs;
 
+  final username = ''.obs;
   final name = ''.obs;
+  final surname = ''.obs;
+  final date = DateTime(0).obs;
   final height = Int64(170).obs;
   final weight = Int64(1).obs;
   final gender = Gender.male.obs;

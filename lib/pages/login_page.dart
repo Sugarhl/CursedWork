@@ -81,7 +81,7 @@ class LoginPageState extends State<LoginPage> {
                   visible: visible.value,
                   child: AppButton(
                     onTap: () {
-                      context.navigateTo(const AccountRouter());
+                      context.navigateTo(MainRouter());
                     },
                     unlocked: emailController.text.isNotEmpty &&
                         passwordController.text.isNotEmpty,

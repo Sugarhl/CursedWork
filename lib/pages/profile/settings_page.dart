@@ -29,27 +29,20 @@ class SettingsPageState extends State<SettingsPage> {
   final _heightController = TextEditingController();
   final _weightController = TextEditingController();
 
-  final activeButton = false.obs;
-
   @override
   void initState() {
     super.initState();
-
-    _nameController.addListener(setActive);
-    _surnameController.addListener(setActive);
-    _dateController.addListener(setActive);
-  }
-
-  void setActive() {
-    activeButton.value = _nameController.text.isNotEmpty &&
-        _surnameController.text.isNotEmpty &&
-        _dateController.text.isNotEmpty;
   }
 
   final _preferencesKey = GlobalKey();
   final ImagePicker _picker = ImagePicker();
   final CredentialsRepository credentialsRepository = Get.find();
   final SettingsController _settingsController = Get.find();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
