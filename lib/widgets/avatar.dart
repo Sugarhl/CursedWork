@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cursed_work/utils/assets.dart';
+import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Avatar extends StatelessWidget {
-  Avatar({
+  const Avatar({
     Key? key,
     required this.size,
     this.url,
@@ -16,7 +18,7 @@ class Avatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.light,
         child: InkWell(
           highlightColor: Colors.transparent,
           splashColor: Colors.white10,
@@ -38,9 +40,10 @@ class Avatar extends StatelessWidget {
                       imageUrl: url!,
                     )
                   : SvgPicture.asset(
-                      'assets/placeholder.svg',
+                      Assets.placeholder,
                       width: size,
                       height: size,
+                      color: AppColors.dark,
                     ),
             ),
           ),

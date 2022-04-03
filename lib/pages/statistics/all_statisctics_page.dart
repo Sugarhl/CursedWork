@@ -24,14 +24,9 @@ class StatisticsPageState extends State<StatisticsPage> {
       backgroundColor: AppColors.dark,
       body: SafeArea(
         child: Center(
-          child: Container(
-            width: 100,
-            height: 100,
-            color: AppColors.light,
-            child: Text(
-              'Empty state',
-              style: AppTextStyles.heading1(),
-            ),
+          child: Text(
+            'Coming soon....',
+            style: AppTextStyles.heading1(),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class GenderButton extends StatefulWidget {
   State<GenderButton> createState() => _GenderButtonState();
 }
 
-class _GenderButtonState extends State<GenderButton> with TickerProviderStateMixin {
+class _GenderButtonState extends State<GenderButton>
+    with TickerProviderStateMixin {
   late AnimationController _animationController;
 
   double get scale => 1 - _animationController.value;
@@ -73,7 +75,7 @@ class _GenderButtonState extends State<GenderButton> with TickerProviderStateMix
           ),
           child: Center(
             child: SvgPicture.asset(
-              'assets/${widget.gender == Gender.male ? 'male' : 'female'}.svg',
+              widget.gender == Gender.male ? Assets.male : Assets.female,
               color: widget.active ? AppColors.light : AppColors.red,
             ),
           ),

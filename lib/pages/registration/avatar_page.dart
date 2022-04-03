@@ -66,7 +66,7 @@ class AvatarPageState extends State<AvatarPage> {
               const Spacer(),
               AppButton(
                 onTap: () {
-                  context.navigateTo(const PasswordRouter());
+                  context.navigateTo(MainRouter());
                 },
                 unlocked: true,
               ),

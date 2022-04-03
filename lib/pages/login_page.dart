@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
+import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/input_field.dart';
@@ -19,6 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  final CredentialsRepository credentialsRepository = Get.find();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final visible = true.obs;
@@ -81,7 +83,7 @@ class LoginPageState extends State<LoginPage> {
                   visible: visible.value,
                   child: AppButton(
                     onTap: () {
-                      context.navigateTo(MainRouter());
+                      loginTap(context);
                     },
                     unlocked: emailController.text.isNotEmpty &&
                         passwordController.text.isNotEmpty,
@@ -100,7 +102,7 @@ class LoginPageState extends State<LoginPage> {
                   child: AppButton(
                     text: 'Войти через Google',
                     onTap: () {
-                      context.navigateTo(const SettingsRouter());
+                      loginTap(context);
                     },
                     unlocked: true,
                     swapColors: true,
@@ -113,5 +115,10 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void loginTap(BuildContext context) {
+    credentialsRepository.login('accessToken');
+    context.navigateTo(MainRouter());
   }
 }

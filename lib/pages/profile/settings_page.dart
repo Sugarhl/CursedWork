@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
+import 'package:cursed_work/navigation/router.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
+import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/avatar_adder.dart';
@@ -73,7 +75,7 @@ class SettingsPageState extends State<SettingsPage> {
                       height: 24,
                       child: Center(
                         child: SvgPicture.asset(
-                          'assets/options.svg',
+                          Assets.options,
                           width: 28,
                           height: 7,
                           color: AppColors.light,
@@ -166,14 +168,12 @@ class SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   const SizedBox(height: 50),
-                  Obx(
-                    () => AppButton(
-                      text: 'Сохранить',
-                      onTap: () {
-                        context.navigateTo(const AvatarRouter());
-                      },
-                      unlocked: true,
-                    ),
+                  AppButton(
+                    text: 'Сохранить',
+                    onTap: () {
+                      context.navigateTo(const AvatarRouter());
+                    },
+                    unlocked: true,
                   ),
                   const SizedBox(height: 50),
                 ],
@@ -202,7 +202,7 @@ class SettingsPageState extends State<SettingsPage> {
         PostMenu(
           onLogout: () {
             credentialsRepository.logout();
-            context.router.replaceAll([]);
+            context.router.replaceAll([const WelcomeRouter()]);
             Navigator.pop<SettingsMenuAction>(
               context,
               SettingsMenuAction.logout,

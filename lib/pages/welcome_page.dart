@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
+import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/main_button.dart';
@@ -61,7 +62,7 @@ class WelcomePageState extends State<WelcomePage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 12),
                     child: Image.asset(
-                      'assets/smart_watch.png',
+                      Assets.smart_watch,
                       width: 150,
                       height: 150,
                     ),

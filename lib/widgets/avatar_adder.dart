@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -71,7 +72,7 @@ class AvatarAdder extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 5),
                         child: SvgPicture.asset(
-                          'assets/camera_plus.svg',
+                          Assets.camera_plus,
                           width: 30,
                           height: 30,
                         ),
@@ -93,7 +94,7 @@ class AvatarAdder extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: SvgPicture.asset(
-                        'assets/camera_plus.svg',
+                        Assets.camera_plus,
                         width: 30,
                         height: 30,
                       ),

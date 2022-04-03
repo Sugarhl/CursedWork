@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/widgets/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class TabPage extends StatefulWidget {
@@ -98,56 +98,13 @@ class _TabPageState extends State<TabPage> with WidgetsBindingObserver {
           builder: (context, child, animation) {
             final tabsRouter = AutoTabsRouter.of(context);
             return Scaffold(
+              backgroundColor: AppColors.dark,
               body: Column(
                 children: [
                   Expanded(child: child),
-                  BottomNavigationBar(
-                    onTap: tabsRouter.setActiveIndex,
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          'assets/bottom_bar/recommendations.svg',
-                          height: 35,
-                          width: 35,
-                        ),
-                        activeIcon: SvgPicture.asset(
-                          'assets/bottom_bar/recommendations.svg',
-                          height: 35,
-                          width: 35,
-                          color: AppColors.red,
-                        ),
-                      ),
-                      BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          'assets/bottom_bar/stats.svg',
-                          height: 35,
-                          width: 35,
-                        ),
-                        activeIcon: SvgPicture.asset(
-                          'assets/bottom_bar/stats.svg',
-                          height: 35,
-                          width: 35,
-                          color: AppColors.red,
-                        ),
-                      ),
-                      BottomNavigationBarItem(
-                        icon: SvgPicture.asset(
-                          'assets/bottom_bar/user.svg',
-                          height: 35,
-                          width: 35,
-                        ),
-                        activeIcon: SvgPicture.asset(
-                          'assets/bottom_bar/user.svg',
-                          height: 35,
-                          width: 35,
-                          color: AppColors.red,
-                        ),
-                      ),
-                    ],
-                  )
+                  BottomBar(onTap: tabsRouter.setActiveIndex)
                 ],
               ),
-              backgroundColor: AppColors.dark,
             );
           },
         ),

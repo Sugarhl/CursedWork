@@ -1,3 +1,4 @@
+import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ class InputField extends StatelessWidget {
             inputFormatters: datePicker ? [_dateFormatter] : inputFormatters,
             onEditingComplete: () {
               final currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus ) {
+              if (!currentFocus.hasPrimaryFocus) {
                 currentFocus.unfocus();
               }
             },
@@ -107,7 +108,7 @@ class InputField extends StatelessWidget {
     if (datePicker) {
       return IconButton(
         icon: SvgPicture.asset(
-          'assets/calendar.svg',
+          Assets.calendar,
           width: 17,
           height: 17,
         ),
