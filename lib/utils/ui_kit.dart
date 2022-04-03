@@ -45,7 +45,7 @@ abstract class AppTextStyles {
     double fontSize = 18.0,
     FontWeight fontWeight = FontWeight.w400,
     double height = 18.0 / 18.0,
-    Color color = const Color(0xff2B2D33),
+    Color color = AppColors.light,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,
@@ -71,7 +71,7 @@ abstract class AppTextStyles {
     double fontSize = 14.0,
     FontWeight fontWeight = FontWeight.w400,
     double height = 16.94 / 14.0,
-    Color color = const Color(0xff2B2D33),
+    Color color = AppColors.black,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,
@@ -84,7 +84,7 @@ abstract class AppTextStyles {
     double fontSize = 12.0,
     FontWeight fontWeight = FontWeight.w500,
     double height = 14.52 / 12.0,
-    Color color = const Color(0xff2B2D33),
+    Color color = AppColors.light,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,
@@ -97,7 +97,7 @@ abstract class AppTextStyles {
     double fontSize = 12.0,
     FontWeight fontWeight = FontWeight.w400,
     double height = 14.52 / 12.0,
-    Color color = const Color(0xff2B2D33),
+    Color color = AppColors.black,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,
@@ -110,7 +110,7 @@ abstract class AppTextStyles {
     double fontSize = 10.0,
     FontWeight fontWeight = FontWeight.w400,
     double height = 12.1 / 10,
-    Color color = const Color(0xff2B2D33),
+    Color color = AppColors.black,
   }) =>
       GoogleFonts.inter(
         fontSize: fontSize,

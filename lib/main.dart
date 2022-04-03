@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cursed_work/controllers/profileController.dart';
+import 'package:cursed_work/controllers/feed_controller.dart';
+import 'package:cursed_work/controllers/profile_controller.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       Get.put(CredentialsRepository());
   final SettingsController settings = Get.put(SettingsController());
   final ProfileController profile = Get.put(ProfileController());
+  final FeedController feed = Get.put(FeedController());
 
   @override
   Widget build(BuildContext context) {

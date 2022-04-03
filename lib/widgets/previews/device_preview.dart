@@ -56,19 +56,17 @@ class DevicePreviewState extends State<DevicePreview>
   }
 
   Widget buildNormal() {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: AppColors.light,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 12, bottom: 12, left: 15),
-          child: Text(
-            (widget.device?.name)!,
-            style: AppTextStyles.button2().copyWith(
-              color: AppColors.dark,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: AppColors.light,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12, bottom: 12, left: 15),
+        child: Text(
+          (widget.device?.name)!,
+          style: AppTextStyles.button2().copyWith(
+            color: AppColors.dark,
           ),
         ),
       ),
@@ -76,21 +74,19 @@ class DevicePreviewState extends State<DevicePreview>
   }
 
   Widget buildPlus() {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: AppColors.red,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 12, bottom: 12, right: 15),
-          child: Center(
-            child: SvgPicture.asset(
-              Assets.plus,
-              height: 30,
-              width: 30,
-              color: AppColors.light,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: AppColors.red,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12, bottom: 12, right: 15),
+        child: Center(
+          child: SvgPicture.asset(
+            Assets.plus,
+            height: 30,
+            width: 30,
+            color: AppColors.light,
           ),
         ),
       ),

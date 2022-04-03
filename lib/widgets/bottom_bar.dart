@@ -23,6 +23,7 @@ class BottomBarState extends State<BottomBar> {
       color: Colors.transparent,
       height: 50,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [

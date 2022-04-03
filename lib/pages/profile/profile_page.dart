@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cursed_work/controllers/profileController.dart';
+import 'package:cursed_work/controllers/profile_controller.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
@@ -77,7 +77,11 @@ class ProfilePageState extends State<ProfilePage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       if (index == _profile.devices.length) {
-                        return DevicePreview.plus(onTap: () {});
+                        return DevicePreview.plus(
+                          onTap: () {
+                            print('plus');
+                          },
+                        );
                       }
                       return DevicePreview(device: _profile.devices[index]);
                     },

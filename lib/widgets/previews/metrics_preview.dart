@@ -1,4 +1,4 @@
-import 'package:cursed_work/utils/converters.dart';
+import 'package:cursed_work/utils/util_functions.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/cupertino.dart';

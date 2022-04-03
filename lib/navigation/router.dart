@@ -4,6 +4,7 @@ import 'package:cursed_work/pages/login_page.dart';
 import 'package:cursed_work/pages/profile/profile_page.dart';
 import 'package:cursed_work/pages/profile/settings_page.dart';
 import 'package:cursed_work/pages/recomendations/feed_page.dart';
+import 'package:cursed_work/pages/recomendations/recomendation_page.dart';
 import 'package:cursed_work/pages/registration/account_page.dart';
 import 'package:cursed_work/pages/registration/avatar_page.dart';
 import 'package:cursed_work/pages/registration/biometrics_page.dart';
@@ -61,6 +62,11 @@ import 'package:cursed_work/pages/welcome_page.dart';
           path: 'welcome',
           name: 'WelcomeRouter',
           page: WelcomePage,
+        ),
+        AutoRoute(
+          path: 'recommendation',
+          name: 'RecommendationRouter',
+          page: RecommendationPage,
         ),
         AutoRoute(
           path: 'tabs',

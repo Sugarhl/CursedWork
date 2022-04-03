@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
-import 'package:cursed_work/navigation/router.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/assets.dart';
@@ -43,7 +42,21 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   void didChangeDependencies() {
+    setAllFields();
+
     super.didChangeDependencies();
+  }
+
+  Future<void> setAllFields() async {
+    await _settingsController.load();
+    _nameController.text = _settingsController.name.value;
+    _surnameController.text = _settingsController.surname.value;
+    final date = _settingsController.date.value;
+    _dateController.text =
+        '${date.day.toStringAsFixed(2)}.${date.month.toStringAsFixed(2)}}'
+        '.${date.year.toStringAsFixed(4)}';
+    _heightController.text = _settingsController.height.value.toString();
+    _weightController.text = _settingsController.weight.value.toString();
   }
 
   @override
@@ -171,7 +184,7 @@ class SettingsPageState extends State<SettingsPage> {
                   AppButton(
                     text: 'Сохранить',
                     onTap: () {
-                      context.navigateTo(const AvatarRouter());
+                      context.router.pop();
                     },
                     unlocked: true,
                   ),
