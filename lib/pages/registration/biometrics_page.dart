@@ -8,6 +8,7 @@ import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class BiometricsPage extends StatefulWidget {
@@ -61,6 +62,7 @@ class BiometricsPageState extends State<BiometricsPage> {
                     label: 'Рост',
                     hintText: 'Введите рост',
                     controller: _heightController,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     focus: true,
                     onChanged: (s) {
                       setState(() {});
@@ -70,6 +72,7 @@ class BiometricsPageState extends State<BiometricsPage> {
                   InputField(
                     label: 'Вес',
                     hintText: 'Введите вес',
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: _weightController,
                     focus: true,
                   ),
@@ -105,6 +108,10 @@ class BiometricsPageState extends State<BiometricsPage> {
                   Obx(
                     () => AppButton(
                       onTap: () {
+                        _settingsController.updateSettings(
+                          height: int.parse(_heightController.text),
+                          weight: int.parse(_weightController.text),
+                        );
                         context.navigateTo(const AvatarRouter());
                       },
                       unlocked: activeButton.value,

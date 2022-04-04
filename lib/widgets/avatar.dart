@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
@@ -9,10 +11,12 @@ class Avatar extends StatelessWidget {
     Key? key,
     required this.size,
     this.url,
+    required this.localPath,
   }) : super(key: key);
 
   final double size;
   final String? url;
+  final String localPath;
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +43,17 @@ class Avatar extends StatelessWidget {
                       ),
                       imageUrl: url!,
                     )
-                  : SvgPicture.asset(
-                      Assets.placeholder,
-                      width: size,
-                      height: size,
-                      color: AppColors.dark,
-                    ),
+                  : localPath.isNotEmpty
+                      ? Image.file(
+                          File(localPath),
+                          fit: BoxFit.cover,
+                        )
+                      : SvgPicture.asset(
+                          Assets.placeholder,
+                          width: size,
+                          height: size,
+                          color: AppColors.dark,
+                        ),
             ),
           ),
         ),

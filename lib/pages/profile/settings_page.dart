@@ -12,6 +12,7 @@ import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/settings_menu.dart';
 import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -48,13 +49,11 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> setAllFields() async {
-    await _settingsController.load();
+    // await _settingsController.load();
     _nameController.text = _settingsController.name.value;
     _surnameController.text = _settingsController.surname.value;
     final date = _settingsController.date.value;
-    _dateController.text =
-        '${date.day.toStringAsFixed(2)}.${date.month.toStringAsFixed(2)}}'
-        '.${date.year.toStringAsFixed(4)}';
+    _dateController.text = date;
     _heightController.text = _settingsController.height.value.toString();
     _weightController.text = _settingsController.weight.value.toString();
   }
@@ -97,12 +96,22 @@ class SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  Center(
-                    child: AvatarAdder(
-                      loading: !_settingsController.loaded.value,
-                      localPath: '',
-                      size: 150,
-                      smallCamera: true,
+                  Obx(
+                    () => Center(
+                      child: AvatarAdder(
+                        loading: true,
+                        localPath: _settingsController.avatarLocal.value,
+                        size: 150,
+                        smallCamera: true,
+                        onPressed: () async {
+                          final image = await _picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          if (image != null) {
+                            _settingsController.avatarLocal.value = image.path;
+                          }
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -114,7 +123,6 @@ class SettingsPageState extends State<SettingsPage> {
                     controller: _nameController,
                     keyboardType: TextInputType.text,
                     capitalization: TextCapitalization.sentences,
-                    focus: true,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -122,7 +130,6 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'Введите пароль еще раз',
                     keyboardType: TextInputType.text,
                     controller: _surnameController,
-                    focus: true,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -130,7 +137,6 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'ДД.ММ.ГГГГ',
                     keyboardType: TextInputType.datetime,
                     controller: _dateController,
-                    focus: true,
                     datePicker: true,
                   ),
                   const SizedBox(height: 40),
@@ -140,7 +146,7 @@ class SettingsPageState extends State<SettingsPage> {
                     label: 'Рост',
                     hintText: 'Введите рост',
                     controller: _heightController,
-                    focus: true,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onChanged: (s) {
                       setState(() {});
                     },
@@ -149,8 +155,8 @@ class SettingsPageState extends State<SettingsPage> {
                   InputField(
                     label: 'Вес',
                     hintText: 'Введите вес',
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: _weightController,
-                    focus: true,
                   ),
                   const SizedBox(height: 47),
                   Padding(
@@ -184,6 +190,13 @@ class SettingsPageState extends State<SettingsPage> {
                   AppButton(
                     text: 'Сохранить',
                     onTap: () {
+                      _settingsController.updateSettings(
+                        name: _nameController.text,
+                        surname: _surnameController.text,
+                        date: _dateController.text,
+                        height: int.parse(_heightController.text),
+                        weight: int.parse(_weightController.text),
+                      );
                       context.router.pop();
                     },
                     unlocked: true,

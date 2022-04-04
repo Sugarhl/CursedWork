@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
@@ -20,7 +21,10 @@ class AccountPage extends StatefulWidget {
 class AccountPageState extends State<AccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nicknameController = TextEditingController();
+  final SettingsController _settingsController = Get.find();
+
   final visible = false.obs;
+  final active = false.obs;
 
   @override
   void initState() {

@@ -23,6 +23,7 @@ class InputField extends StatelessWidget {
     this.datePicker = false,
     this.errorString,
     this.capitalization = TextCapitalization.none,
+    this.onEditingComplete,
   }) : super(key: key);
 
   final String label;
@@ -32,6 +33,7 @@ class InputField extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final bool focus;
   final ValueChanged<String>? onChanged;
+  final VoidCallback? onEditingComplete;
   final TextEditingController? controller;
   final TextCapitalization? capitalization;
   final TextInputType? keyboardType;
@@ -96,6 +98,9 @@ class InputField extends StatelessWidget {
               final currentFocus = FocusScope.of(context);
               if (!currentFocus.hasPrimaryFocus) {
                 currentFocus.unfocus();
+              }
+              if (onEditingComplete != null) {
+                onEditingComplete?.call();
               }
             },
           ),

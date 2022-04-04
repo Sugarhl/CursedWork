@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/input_field.dart';
@@ -19,6 +20,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
   final _surnameController = TextEditingController();
   final _dateController = TextEditingController();
   final _activeButton = false.obs;
+  final SettingsController _settingsController = Get.find();
 
   @override
   void initState() {
@@ -88,6 +90,11 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                   Obx(
                     () => AppButton(
                       onTap: () {
+                        _settingsController.updateSettings(
+                          name: _nameController.text,
+                          surname: _surnameController.text,
+                          date: _dateController.text,
+                        );
                         context.navigateTo(const BiometricsRouter());
                       },
                       unlocked: _activeButton.value,

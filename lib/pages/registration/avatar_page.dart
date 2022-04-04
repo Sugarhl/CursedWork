@@ -66,6 +66,7 @@ class AvatarPageState extends State<AvatarPage> {
               const Spacer(),
               AppButton(
                 onTap: () {
+                  _settingsController.updateSettings(avatarLocal: path.value);
                   context.navigateTo(MainRouter());
                 },
                 unlocked: true,

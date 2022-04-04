@@ -52,16 +52,18 @@ class ProfilePageState extends State<ProfilePage> {
                   Center(
                     child: Obx(
                       () => Avatar(
-                        url: _settings.avatarLocal.value,
                         size: 110,
+                        localPath: _settings.avatarLocal.value,
                       ),
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Center(
-                    child: Text(
-                      '${_settings.name.value} ${_settings.surname.value}',
-                      style: AppTextStyles.heading2(),
+                  Obx(
+                    () => Center(
+                      child: Text(
+                        '${_settings.name.value} ${_settings.surname.value}',
+                        style: AppTextStyles.heading2(),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 30),

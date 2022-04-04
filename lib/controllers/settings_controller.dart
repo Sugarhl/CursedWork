@@ -9,7 +9,7 @@ class SettingsController extends GetxController {
   final username = 'sugarhl'.obs;
   final name = 'Никита'.obs;
   final surname = 'Сахаров'.obs;
-  final date = DateTime(0).obs;
+  final date = ''.obs;
   final height = Int64(170).obs;
   final weight = Int64(1).obs;
   final gender = Gender.male.obs;
@@ -22,6 +22,24 @@ class SettingsController extends GetxController {
     loaded.value = false;
     print('load');
     loaded.value = true;
+  }
+
+  Future<void> updateSettings({
+    String? name,
+    String? surname,
+    String? date,
+    int? height,
+    int? weight,
+    Gender? gender,
+    String? avatarLocal,
+  }) async {
+    this.name.value = name ?? this.name.value;
+    this.surname.value = surname ?? this.surname.value;
+    this.date.value = date ?? this.date.value;
+    this.avatarLocal.value = avatarLocal ?? this.avatarLocal.value;
+    this.gender.value = gender ?? this.gender.value;
+    this.height.value = Int64(height ?? this.height.value.toInt());
+    this.weight.value = Int64(weight ?? this.weight.value.toInt());
   }
 
   void changeGender() {
