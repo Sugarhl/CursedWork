@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/enums.dart';
+import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/gender_button.dart';
 import 'package:cursed_work/widgets/input_field.dart';
@@ -44,7 +45,7 @@ class BiometricsPageState extends State<BiometricsPage> {
       backgroundColor: AppColors.dark,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppSizes.pageInset),
           child: NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (overscroll) {
               overscroll.disallowIndicator();

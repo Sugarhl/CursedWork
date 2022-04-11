@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         theme: ThemeData(
           indicatorColor: const Color(0xff222330),
+          textTheme: TextTheme(button: AppTextStyles.button1()),
         ),
         builder: (context, child) {
           SystemChrome.setSystemUIOverlayStyle(

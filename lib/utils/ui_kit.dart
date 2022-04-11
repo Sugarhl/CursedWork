@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-abstract class AppTextStyles {
+abstract class AppTextStyles extends TextTheme {
+  @override
+  TextStyle get headline1 => heading1();
+
   static TextStyle heading1({
     double fontSize = 36.0,
     FontWeight fontWeight = FontWeight.w700,

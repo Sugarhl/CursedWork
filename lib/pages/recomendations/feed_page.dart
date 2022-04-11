@@ -3,6 +3,7 @@ import 'package:cursed_work/controllers/feed_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/models/recommendation_model.dart';
+import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/utils/util_functions.dart';
 import 'package:cursed_work/widgets/previews/recommendation_preview.dart';
@@ -70,7 +71,8 @@ class FeedPageState extends State<FeedPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16, bottom: 3),
+                padding:
+                    const EdgeInsets.only(left: AppSizes.pageInset, bottom: 3),
                 child: Text(
                   'Рекомендации',
                   style: AppTextStyles.heading2(),
@@ -92,7 +94,11 @@ class FeedPageState extends State<FeedPage> {
             SliverSafeArea(
               sliver: SliverPadding(
                 padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 10, bottom: 8),
+                  left: AppSizes.pageInset,
+                  right: AppSizes.pageInset,
+                  top: 10,
+                  bottom: 8,
+                ),
                 sliver: PagedSliverList.separated(
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) =>

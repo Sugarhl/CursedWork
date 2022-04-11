@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/bound.dart';
+import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class WelcomePageState extends State<WelcomePage> {
       backgroundColor: AppColors.dark,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppSizes.pageInset),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
