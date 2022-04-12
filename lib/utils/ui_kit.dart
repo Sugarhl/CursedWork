@@ -131,5 +131,6 @@ abstract class AppColors {
   static const Color hintText = Color(0x445C4343);
   static const Color black = Color(0xff2B2D33);
   static const Color orange = Color(0xffEB916B);
+  static const Color heart = Color(0xffCA4D4D);
 // static const Color cardShadow = Color(0x40003482);
 }
