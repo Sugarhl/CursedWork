@@ -5,6 +5,7 @@ import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/validation/fields.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/top_bar.dart';
@@ -21,9 +22,11 @@ class PasswordPage extends StatefulWidget {
 
 class PasswordPageState extends State<PasswordPage> {
   TextEditingController passwordController = TextEditingController();
-  TextEditingController verifyController = TextEditingController();
+  TextEditingController repeatedController = TextEditingController();
 
   final visible = false.obs;
+  final passwordError = ''.obs;
+  final repeatedError = ''.obs;
 
   @override
   void initState() {
@@ -35,6 +38,18 @@ class PasswordPageState extends State<PasswordPage> {
         sleep(Durations.button);
       }
       visible.value = !vis;
+    });
+
+    passwordController.addListener(() {
+      passwordError.value = getPasswordErrorMessage(
+          Password.dirty(value: passwordController.text).error);
+    });
+    repeatedController.addListener(() {
+      if (passwordController.text != repeatedController.text) {
+        repeatedError.value = 'Пароли не совпадают';
+      } else {
+        repeatedError.value = '';
+      }
     });
   }
 
@@ -65,6 +80,7 @@ class PasswordPageState extends State<PasswordPage> {
                 hintText: 'Введите пароль',
                 keyboardType: TextInputType.visiblePassword,
                 controller: passwordController,
+                errorString: passwordError,
                 focus: true,
               ),
               const SizedBox(height: 47),
@@ -72,8 +88,9 @@ class PasswordPageState extends State<PasswordPage> {
                 label: 'Подтвердите пароль',
                 hintText: 'Введите пароль еще раз',
                 keyboardType: TextInputType.visiblePassword,
-                controller: verifyController,
+                controller: repeatedController,
                 focus: true,
+                errorString: repeatedError,
               ),
               const Spacer(),
               Obx(
@@ -83,8 +100,9 @@ class PasswordPageState extends State<PasswordPage> {
                     onTap: () {
                       context.navigateTo(const PersonalDataRouter());
                     },
-                    unlocked: passwordController.text.isNotEmpty &&
-                        verifyController.text == passwordController.text,
+                    unlocked:
+                        Password.dirty(value: passwordController.text).valid &&
+                            repeatedController.text == passwordController.text,
                   ),
                 ),
               ),

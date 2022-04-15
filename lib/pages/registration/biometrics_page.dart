@@ -4,12 +4,15 @@ import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/validation/fields.dart';
+import 'package:cursed_work/validation/forms.dart';
 import 'package:cursed_work/widgets/gender_button.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 
 class BiometricsPage extends StatefulWidget {
@@ -23,18 +26,33 @@ class BiometricsPageState extends State<BiometricsPage> {
   final SettingsController _settingsController = Get.find();
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
+  final heightError = ''.obs;
+  final weightError = ''.obs;
 
   @override
   void initState() {
     super.initState();
 
-    _heightController.addListener(setActive);
-    _weightController.addListener(setActive);
+    _heightController.addListener(() {
+      heightError.value = getHeightErrorMessage(
+        Height.dirty(value: _heightController.text).error,
+      );
+      setActive();
+    });
+    _weightController.addListener(() {
+      heightError.value = getHeightErrorMessage(
+        Weight.dirty(value: _weightController.text).error,
+      );
+      setActive();
+    });
   }
 
   void setActive() {
-    activeButton.value =
-        _heightController.text.isNotEmpty && _weightController.text.isNotEmpty;
+    activeButton.value = BiometicsForm(
+          height: _heightController.text,
+          weight: _weightController.text,
+        ).status ==
+        FormzStatus.valid;
   }
 
   final activeButton = false.obs;
@@ -55,7 +73,11 @@ class BiometricsPageState extends State<BiometricsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TopBar(leftAction: () {}),
+                  TopBar(
+                    leftAction: () {
+                      context.router.pop();
+                    },
+                  ),
                   const SizedBox(height: 113),
                   Text('Биометрия', style: AppTextStyles.heading2()),
                   const SizedBox(height: 34),

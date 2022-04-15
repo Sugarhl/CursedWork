@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/controllers/registration_controller.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/bound.dart';
@@ -29,6 +30,7 @@ class AccountPageState extends State<AccountPage> {
   final nicknameError = ''.obs;
 
   final SettingsController _settingsController = Get.find();
+  final LoginController _loginController = Get.find();
 
   final visible = true.obs;
   final active = false.obs;
@@ -48,11 +50,13 @@ class AccountPageState extends State<AccountPage> {
       emailError.value = getEmailErrorMessage(
         Email.dirty(value: emailController.text).error,
       );
+      setButton();
     });
     nicknameController.addListener(() {
       nicknameError.value = getNicknameErrorMessage(
         Nickname.dirty(value: nicknameController.text).error,
       );
+      setButton();
     });
   }
 
@@ -98,13 +102,9 @@ class AccountPageState extends State<AccountPage> {
                   visible: visible.value,
                   child: AppButton(
                     onTap: () {
-                      context.navigateTo(const PasswordRouter());
+                      nextAction(context);
                     },
-                    unlocked: AccountForm(
-                          email: emailController.text,
-                          nickname: nicknameController.text,
-                        ).status ==
-                        FormzStatus.valid,
+                    unlocked: active.value,
                   ),
                 ),
               ),
@@ -114,5 +114,20 @@ class AccountPageState extends State<AccountPage> {
         ),
       ),
     );
+  }
+
+  Future<void> nextAction(BuildContext context) async {
+    if (await _loginController.checkLogin(nicknameController.text)) {
+      await context.navigateTo(const PasswordRouter());
+    }
+    active.value = false;
+  }
+
+  void setButton() {
+    active.value = AccountForm(
+          email: emailController.text,
+          nickname: nicknameController.text,
+        ).status ==
+        FormzStatus.valid;
   }
 }

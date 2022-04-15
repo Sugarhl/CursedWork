@@ -3,10 +3,13 @@ import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/validation/fields.dart';
+import 'package:cursed_work/validation/forms.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 
 class PersonalDataPage extends StatefulWidget {
@@ -23,19 +26,41 @@ class PersonalDataPageState extends State<PersonalDataPage> {
   final _activeButton = false.obs;
   final SettingsController _settingsController = Get.find();
 
+  final nameError = ''.obs;
+  final surnameError = ''.obs;
+  final dateError = ''.obs;
+
   @override
   void initState() {
     super.initState();
 
-    _nameController.addListener(setActive);
-    _surnameController.addListener(setActive);
-    _dateController.addListener(setActive);
+    _nameController.addListener(() {
+      nameError.value = getNameErrorMessage(
+        Name.dirty(value: _nameController.text).error,
+      );
+      setButton();
+    });
+    _surnameController.addListener(() {
+      surnameError.value = getNameErrorMessage(
+        Name.dirty(value: _surnameController.text).error,
+      );
+      setButton();
+    });
+    _dateController.addListener(() {
+      dateError.value = getDateErrorMessage(
+        Date.dirty(value: _dateController.text).error,
+      );
+      setButton();
+    });
   }
 
-  void setActive() {
-    _activeButton.value = _nameController.text.isNotEmpty &&
-        _surnameController.text.isNotEmpty &&
-        _dateController.text.isNotEmpty;
+  void setButton() {
+    _activeButton.value = PersonalForm(
+          date: _dateController.text,
+          surname: _surnameController.text,
+          name: _nameController.text,
+        ).status ==
+        FormzStatus.valid;
   }
 
   @override
@@ -56,7 +81,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                 children: [
                   TopBar(
                     leftAction: () {
-                      context.navigateBack();
+                      context.router.pop();
                     },
                   ),
                   const SizedBox(height: 113),
@@ -68,6 +93,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     controller: _nameController,
                     keyboardType: TextInputType.text,
                     capitalization: TextCapitalization.sentences,
+                    errorString: nameError,
                     focus: true,
                   ),
                   const SizedBox(height: 47),
@@ -76,6 +102,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     hintText: 'Введите пароль еще раз',
                     keyboardType: TextInputType.text,
                     controller: _surnameController,
+                    errorString: surnameError,
                     focus: true,
                   ),
                   const SizedBox(height: 47),
@@ -86,6 +113,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     controller: _dateController,
                     focus: true,
                     datePicker: true,
+                    errorString: dateError,
                   ),
                   const SizedBox(height: 111),
                   Obx(

@@ -16,3 +16,38 @@ class AccountForm with FormzMixin {
   @override
   List<FormzInput> get inputs => [email, nickname];
 }
+
+class PersonalForm with FormzMixin {
+  PersonalForm({
+    required String name,
+    required String surname,
+    required String date,
+  }) {
+    this.name = Name.dirty(value: name);
+    this.surname = Name.dirty(value: surname);
+    this.date = Date.dirty(value: date);
+  }
+
+  late final Date date;
+  late final Name name;
+  late final Name surname;
+
+  @override
+  List<FormzInput> get inputs => [date, name, surname];
+}
+
+class BiometicsForm with FormzMixin {
+  BiometicsForm({
+    required String height,
+    required String weight,
+  }) {
+    this.height = Height.dirty(value: height);
+    this.weight = Weight.dirty(value: weight);
+  }
+
+  late final Height height;
+  late final Weight weight;
+
+  @override
+  List<FormzInput> get inputs => [height, weight];
+}

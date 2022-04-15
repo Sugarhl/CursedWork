@@ -35,14 +35,14 @@ class Email extends FormzInput<String, EmailError> {
   }
 }
 
-class Name extends FormzInput<String, NicknameError> {
+class Name extends FormzInput<String, NameError> {
   const Name.pure() : super.pure('');
 
   const Name.dirty({String value = ''}) : super.dirty(value);
 
   @override
-  NicknameError? validator(String value) {
-    return value.isNotEmpty == true ? null : NicknameError.empty;
+  NameError? validator(String value) {
+    return value.isEmpty ? NameError.empty : null;
   }
 }
 
@@ -60,22 +60,22 @@ class Password extends FormzInput<String, PasswordError> {
       return PasswordError.size;
     }
     final hasUppercase = value.contains(RegExp('[A-Z]'));
-    if (hasUppercase) {
+    if (!hasUppercase) {
       return PasswordError.uppercase;
     }
     final hasDigits = value.contains(RegExp('[0-9]'));
-    if (hasDigits) {
+    if (!hasDigits) {
       return PasswordError.digits;
     }
     final hasLowercase = value.contains(RegExp('[a-z]'));
-    if (hasLowercase) {
+    if (!hasLowercase) {
       return PasswordError.lowercase;
     }
-    final hasSpecialCharacters =
-        value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    if (hasSpecialCharacters) {
-      return PasswordError.specialCharacters;
-    }
+    // final hasSpecialCharacters =
+    //     value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>_-]'));
+    // if (!hasSpecialCharacters) {
+    //   return PasswordError.specialCharacters;
+    // }
     return null;
   }
 }
@@ -99,6 +99,40 @@ class Date extends FormzInput<String, DateError> {
     }
     if (format.format(date) != value) {
       return DateError.format;
+    }
+    return null;
+  }
+}
+
+class Height extends FormzInput<String, NumberError> {
+  const Height.pure() : super.pure('');
+
+  const Height.dirty({String value = ''}) : super.dirty(value);
+
+  @override
+  NumberError? validator(String value) {
+    var height = 1;
+    try {
+      height = int.parse(value);
+    } on Exception {
+      return NumberError.format;
+    }
+    return null;
+  }
+}
+
+class Weight extends FormzInput<String, NumberError> {
+  const Weight.pure() : super.pure('');
+
+  const Weight.dirty({String value = ''}) : super.dirty(value);
+
+  @override
+  NumberError? validator(String value) {
+    var weight = 1;
+    try {
+      weight = int.parse(value);
+    } on Exception {
+      return NumberError.format;
     }
     return null;
   }
