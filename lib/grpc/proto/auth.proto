@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package models.api;
+
+service AuthService {
+  rpc CheckLogin(CheckLoginRequest) returns(CheckLoginResponse) {}
+  rpc Registration(RegistrationRequest) returns(RegistrationResponse) {}
+}
+
+enum Status {
+  NOTHING = 0;
+  SUCCESS = 200;
+  CONFLICT = 409;
+}
+
+
+message CheckLoginRequest {
+  string login = 1;
+}
+
+message CheckLoginResponse {
+  Status status = 1;
+}
+
+message RegistrationRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message RegistrationResponse {
+  Status status = 1;
+}

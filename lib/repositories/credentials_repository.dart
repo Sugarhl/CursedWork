@@ -1,3 +1,4 @@
+import 'package:cursed_work/grpc/generated/auth.pbgrpc.dart';
 import 'package:get/get.dart';
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -43,6 +44,12 @@ class CredentialsRepository extends GetxController {
     }
   }
 
+  final _authServiceChanel = GrpcOrGrpcWebClientChannel.grpc(
+    'localhost',
+    port: 8003,
+    options: const ChannelOptions(credentials: ChannelCredentials.insecure()),
+  );
+
   T client<T>() {
     final callOptions = state.value == CredentialsState.loggedIn
         ? CallOptions(
@@ -50,6 +57,8 @@ class CredentialsRepository extends GetxController {
           )
         : CallOptions();
     switch (T) {
+      case AuthServiceClient:
+        return AuthServiceClient(_authServiceChanel, options: callOptions) as T;
     }
     throw Exception('Client type not found');
   }

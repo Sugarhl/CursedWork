@@ -6,10 +6,13 @@ import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/validation/fields.dart';
+import 'package:cursed_work/validation/forms.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 
 class AccountPage extends StatefulWidget {
@@ -22,9 +25,12 @@ class AccountPage extends StatefulWidget {
 class AccountPageState extends State<AccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nicknameController = TextEditingController();
+  final emailError = ''.obs;
+  final nicknameError = ''.obs;
+
   final SettingsController _settingsController = Get.find();
 
-  final visible = false.obs;
+  final visible = true.obs;
   final active = false.obs;
 
   @override
@@ -36,6 +42,17 @@ class AccountPageState extends State<AccountPage> {
         sleep(Durations.button);
       }
       visible.value = !vis;
+    });
+
+    emailController.addListener(() {
+      emailError.value = getEmailErrorMessage(
+        Email.dirty(value: emailController.text).error,
+      );
+    });
+    nicknameController.addListener(() {
+      nicknameError.value = getNicknameErrorMessage(
+        Nickname.dirty(value: nicknameController.text).error,
+      );
     });
   }
 
@@ -64,21 +81,16 @@ class AccountPageState extends State<AccountPage> {
                 hintText: 'Введите почту',
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
-                focus: true,
-                onChanged: (s) {
-                  setState(() {});
-                },
+                errorString: emailError,
               ),
+
               const SizedBox(height: 47),
               InputField(
                 label: 'Никнейм',
                 hintText: 'Введите никнейм',
                 keyboardType: TextInputType.text,
                 controller: nicknameController,
-                focus: true,
-                onChanged: (s) {
-                  setState(() {});
-                },
+                errorString: nicknameError,
               ),
               const Spacer(),
               Obx(
@@ -88,8 +100,11 @@ class AccountPageState extends State<AccountPage> {
                     onTap: () {
                       context.navigateTo(const PasswordRouter());
                     },
-                    unlocked: emailController.text.isNotEmpty &&
-                        nicknameController.text.isNotEmpty,
+                    unlocked: AccountForm(
+                          email: emailController.text,
+                          nickname: nicknameController.text,
+                        ).status ==
+                        FormzStatus.valid,
                   ),
                 ),
               ),

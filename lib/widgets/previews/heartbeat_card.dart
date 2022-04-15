@@ -70,7 +70,7 @@ class BpmCard extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 8),
               child: Text(
                 'Средние показатели за день',
                 style: AppTextStyles.bigText().copyWith(
@@ -82,15 +82,6 @@ class BpmCard extends StatelessWidget {
             SfLinearGauge(
               axisTrackStyle: const LinearAxisTrackStyle(
                 thickness: 18,
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xff5C89AA),
-                    Color(0xff7AAA5C),
-                    Color(0xffBE8A4E),
-                    Color(0xffC05B55),
-                  ],
-                  stops: [0.2, 0.4, 0.6, 0.8],
-                ),
               ),
               interval: 15,
               axisTrackExtent: 5,
@@ -99,13 +90,24 @@ class BpmCard extends StatelessWidget {
                   AppTextStyles.smallText().copyWith(color: AppColors.black),
               showAxisTrack: false,
               showTicks: false,
-              ranges: const <LinearGaugeRange>[
+              ranges: <LinearGaugeRange>[
                 LinearGaugeRange(
                   endWidth: 18,
                   startWidth: 18,
                   startValue: 60,
                   endValue: 120,
                   edgeStyle: LinearEdgeStyle.bothCurve,
+                  shaderCallback: (rect) {
+                    return const LinearGradient(
+                      colors: [
+                        Color(0xff5C89AA),
+                        Color(0xff7AAA5C),
+                        Color(0xffBE8A4E),
+                        Color(0xffC05B55),
+                      ],
+                      stops: [0.2, 0.4, 0.6, 0.8],
+                    ).createShader(rect);
+                  },
                 )
               ],
               minimum: 60,

@@ -4,6 +4,7 @@ import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -27,7 +28,7 @@ class InputField extends StatelessWidget {
   }) : super(key: key);
 
   final String label;
-  final String? errorString;
+  final Rx<String>? errorString;
   final String? hintText;
   final double? height;
   final EdgeInsets? contentPadding;
@@ -61,49 +62,75 @@ class InputField extends StatelessWidget {
               ),
               const Spacer(),
               if (errorString != null)
-                Text(
-                  errorString!,
-                  style:
-                      AppTextStyles.button1().copyWith(color: AppColors.orange),
+                Obx(
+                  () => (errorString?.isNotEmpty)!
+                      ? Text(
+                          (errorString?.value)!,
+                          style: AppTextStyles.mainText()
+                              .copyWith(color: AppColors.orange),
+                        )
+                      : const SizedBox.shrink(),
                 ),
             ],
           ),
         ),
-        Container(
-          height: height ?? 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            color: AppColors.light,
-          ),
-          child: TextField(
-            enabled: enabled,
-            autofocus: focus,
-            controller: controller,
-            cursorColor: AppColors.black,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              contentPadding: contentPadding ??
-                  const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-              isDense: true,
-              hintText: hintText,
-              hintStyle:
-                  AppTextStyles.mainText().copyWith(color: AppColors.hintText),
-              border: InputBorder.none,
-              suffixIcon: buildDatePicker(context),
+        Stack(
+          children: [
+            if (errorString != null)
+              Obx(
+                () => Container(
+                  height: height ?? 53,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: (errorString?.isNotEmpty)!
+                        ? AppColors.orange
+                        : AppColors.red,
+                  ),
+                ),
+              ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 1.5, horizontal: 1.5),
+              child: Container(
+                height: height ?? 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: AppColors.light,
+                ),
+                child: TextField(
+                  enabled: enabled,
+                  autofocus: focus,
+                  controller: controller,
+                  cursorColor: AppColors.black,
+                  keyboardType: keyboardType,
+                  decoration: InputDecoration(
+                    contentPadding: contentPadding ??
+                        const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 20),
+                    isDense: true,
+                    hintText: hintText,
+                    hintStyle: AppTextStyles.mainText()
+                        .copyWith(color: AppColors.hintText),
+                    border: InputBorder.none,
+                    suffixIcon: buildDatePicker(context),
+                  ),
+                  style: AppTextStyles.mainText(),
+                  onChanged: onChanged,
+                  inputFormatters:
+                      datePicker ? [_dateFormatter] : inputFormatters,
+                  onEditingComplete: () {
+                    final currentFocus = FocusScope.of(context);
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }
+                    if (onEditingComplete != null) {
+                      onEditingComplete?.call();
+                    }
+                  },
+                ),
+              ),
             ),
-            style: AppTextStyles.mainText(),
-            onChanged: onChanged,
-            inputFormatters: datePicker ? [_dateFormatter] : inputFormatters,
-            onEditingComplete: () {
-              final currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-              }
-              if (onEditingComplete != null) {
-                onEditingComplete?.call();
-              }
-            },
-          ),
+          ],
         ),
       ],
     );
