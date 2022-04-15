@@ -117,10 +117,12 @@ class AccountPageState extends State<AccountPage> {
   }
 
   Future<void> nextAction(BuildContext context) async {
+    active.value = false;
     if (await _loginController.checkLogin(nicknameController.text)) {
       await context.navigateTo(const PasswordRouter());
+    } else {
+      nicknameError.value = 'Никнейм уже занят';
     }
-    active.value = false;
   }
 
   void setButton() {

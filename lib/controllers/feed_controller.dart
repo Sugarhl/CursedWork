@@ -14,6 +14,11 @@ class FeedController extends GetxController {
     loaded.value = true;
   }
 
+  final recommendations = <RecommendationModel>[].obs;
+  final loading = false.obs;
+  final scrolledToBottom = false.obs;
+  final _listUpdated = PublishSubject<int>();
+  final mutex = Mutex();
   final stab = RecommendationModel(
     id: 'id',
     title: 'Риск развития тахикардии',
@@ -43,12 +48,6 @@ class FeedController extends GetxController {
 
     return [];
   }
-
-  final recommendations = <RecommendationModel>[].obs;
-  final loading = false.obs;
-  final scrolledToBottom = false.obs;
-  final _listUpdated = PublishSubject<int>();
-  final mutex = Mutex();
 
   Stream<int> get listUpdated => _listUpdated.stream;
 

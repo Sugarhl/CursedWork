@@ -25,6 +25,7 @@ class PasswordPageState extends State<PasswordPage> {
   TextEditingController repeatedController = TextEditingController();
 
   final visible = false.obs;
+  bool obscure = true;
   final passwordError = ''.obs;
   final repeatedError = ''.obs;
 
@@ -42,7 +43,13 @@ class PasswordPageState extends State<PasswordPage> {
 
     passwordController.addListener(() {
       passwordError.value = getPasswordErrorMessage(
-          Password.dirty(value: passwordController.text).error);
+        Password.dirty(value: passwordController.text).error,
+      );
+      if (passwordController.text != repeatedController.text) {
+        repeatedError.value = 'Пароли не совпадают';
+      } else {
+        repeatedError.value = '';
+      }
     });
     repeatedController.addListener(() {
       if (passwordController.text != repeatedController.text) {
@@ -69,9 +76,11 @@ class PasswordPageState extends State<PasswordPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(leftAction: () {
-                context.navigateBack();
-              }),
+              TopBar(
+                leftAction: () {
+                  context.router.pop();
+                },
+              ),
               const SizedBox(height: 113),
               Text('Безопасность', style: AppTextStyles.heading2()),
               const SizedBox(height: 34),
@@ -81,7 +90,12 @@ class PasswordPageState extends State<PasswordPage> {
                 keyboardType: TextInputType.visiblePassword,
                 controller: passwordController,
                 errorString: passwordError,
-                focus: true,
+                obscureText: obscure,
+                onObscureTap: () {
+                  setState(() {
+                    obscure = !obscure;
+                  });
+                },
               ),
               const SizedBox(height: 47),
               InputField(
@@ -89,8 +103,13 @@ class PasswordPageState extends State<PasswordPage> {
                 hintText: 'Введите пароль еще раз',
                 keyboardType: TextInputType.visiblePassword,
                 controller: repeatedController,
-                focus: true,
+                obscureText: obscure,
                 errorString: repeatedError,
+                onObscureTap: () {
+                  setState(() {
+                    obscure = !obscure;
+                  });
+                },
               ),
               const Spacer(),
               Obx(

@@ -14,4 +14,5 @@ abstract class Assets {
   static const stats = 'assets/stats.svg';
   static const steps = 'assets/steps.svg';
   static const user = 'assets/user.svg';
+  static const eye = 'assets/eye.svg';
 }

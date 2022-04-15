@@ -40,7 +40,7 @@ class BiometricsPageState extends State<BiometricsPage> {
       setActive();
     });
     _weightController.addListener(() {
-      heightError.value = getHeightErrorMessage(
+      weightError.value = getHeightErrorMessage(
         Weight.dirty(value: _weightController.text).error,
       );
       setActive();
@@ -86,10 +86,8 @@ class BiometricsPageState extends State<BiometricsPage> {
                     hintText: 'Введите рост',
                     controller: _heightController,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    focus: true,
-                    onChanged: (s) {
-                      setState(() {});
-                    },
+                    suffixText: 'см',
+                    errorString: heightError,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -97,7 +95,8 @@ class BiometricsPageState extends State<BiometricsPage> {
                     hintText: 'Введите вес',
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: _weightController,
-                    focus: true,
+                    suffixText: 'кг',
+                    errorString: weightError,
                   ),
                   const SizedBox(height: 47),
                   Padding(

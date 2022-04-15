@@ -20,11 +20,13 @@ class SettingsController extends GetxController {
 
   Future<void> load() async {
     loaded.value = false;
+    //ToDo:: Send request to get profile data
     print('load');
     loaded.value = true;
   }
 
   Future<void> updateSettings({
+    String? username,
     String? name,
     String? surname,
     String? date,
@@ -32,7 +34,9 @@ class SettingsController extends GetxController {
     int? weight,
     Gender? gender,
     String? avatarLocal,
+    bool syncToServer = true,
   }) async {
+    this.username.value = username ?? this.username.value;
     this.name.value = name ?? this.name.value;
     this.surname.value = surname ?? this.surname.value;
     this.date.value = date ?? this.date.value;
@@ -40,6 +44,9 @@ class SettingsController extends GetxController {
     this.gender.value = gender ?? this.gender.value;
     this.height.value = Int64(height ?? this.height.value.toInt());
     this.weight.value = Int64(weight ?? this.weight.value.toInt());
+    if (syncToServer) {
+      //ToDo:: Send request
+    }
   }
 
   void changeGender() {

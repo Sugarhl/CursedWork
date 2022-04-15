@@ -4,7 +4,7 @@ enum NicknameError { empty, size, unique }
 enum DateError { empty, format }
 enum EmailError { empty, format }
 enum NameError { empty }
-enum NumberError { empty, format }
+enum NumberError { empty, format, less, more }
 enum PasswordError {
   empty,
   uppercase,
@@ -85,6 +85,10 @@ String getHeightErrorMessage(NumberError? error) {
       return 'Введите рост';
     case NumberError.format:
       return 'Неверный формат';
+    case NumberError.less:
+      return 'Недопустимое значение';
+    case NumberError.more:
+      return 'Недопустимое значение';
   }
 }
 
@@ -96,5 +100,9 @@ String getWeightErrorMessage(NumberError? error) {
       return 'Введите вес';
     case NumberError.format:
       return 'Неверный формат';
+    case NumberError.less:
+      return 'Недопустимое значение';
+    case NumberError.more:
+      return 'Недопустимое значение';
   }
 }

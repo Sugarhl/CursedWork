@@ -25,11 +25,15 @@ class InputField extends StatelessWidget {
     this.errorString,
     this.capitalization = TextCapitalization.none,
     this.onEditingComplete,
+    this.obscureText,
+    this.onObscureTap,
+    this.suffixText,
   }) : super(key: key);
 
   final String label;
   final Rx<String>? errorString;
   final String? hintText;
+  final String? suffixText;
   final double? height;
   final EdgeInsets? contentPadding;
   final bool focus;
@@ -41,6 +45,8 @@ class InputField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool enabled;
   final bool datePicker;
+  final bool? obscureText;
+  final VoidCallback? onObscureTap;
 
   DateTime _date = DateTime.now();
   final _dateFormatter = MaskTextInputFormatter(
@@ -63,12 +69,13 @@ class InputField extends StatelessWidget {
               const Spacer(),
               if (errorString != null)
                 Obx(
-                  () => (errorString?.isNotEmpty)!
+                      () =>
+                  (errorString?.isNotEmpty)!
                       ? Text(
-                          (errorString?.value)!,
-                          style: AppTextStyles.mainText()
-                              .copyWith(color: AppColors.orange),
-                        )
+                    (errorString?.value)!,
+                    style: AppTextStyles.mainText()
+                        .copyWith(color: AppColors.orange),
+                  )
                       : const SizedBox.shrink(),
                 ),
             ],
@@ -78,19 +85,20 @@ class InputField extends StatelessWidget {
           children: [
             if (errorString != null)
               Obx(
-                () => Container(
-                  height: height ?? 53,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    color: (errorString?.isNotEmpty)!
-                        ? AppColors.orange
-                        : AppColors.red,
-                  ),
-                ),
+                    () =>
+                    Container(
+                      height: height ?? 53,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: (errorString?.isNotEmpty)!
+                            ? AppColors.orange
+                            : AppColors.red,
+                      ),
+                    ),
               ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 1.5, horizontal: 1.5),
+              const EdgeInsets.symmetric(vertical: 1.5, horizontal: 1.5),
               child: Container(
                 height: height ?? 50,
                 decoration: BoxDecoration(
@@ -104,20 +112,23 @@ class InputField extends StatelessWidget {
                   cursorColor: AppColors.black,
                   keyboardType: keyboardType,
                   decoration: InputDecoration(
-                    contentPadding: contentPadding ??
-                        const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 20),
-                    isDense: true,
-                    hintText: hintText,
-                    hintStyle: AppTextStyles.mainText()
-                        .copyWith(color: AppColors.hintText),
-                    border: InputBorder.none,
-                    suffixIcon: buildDatePicker(context),
-                  ),
+                      contentPadding: contentPadding ??
+                          const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 20),
+                      isDense: true,
+                      hintText: hintText,
+                      hintStyle: AppTextStyles.mainText()
+                          .copyWith(color: AppColors.hintText),
+                      border: InputBorder.none,
+                      suffixIcon: buildDatePicker(context),
+                      suffixStyle: AppTextStyles.mainText()
+                          .copyWith(color: AppColors.dark),
+                      suffixText: suffixText),
                   style: AppTextStyles.mainText(),
                   onChanged: onChanged,
+                  obscureText: obscureText ?? false,
                   inputFormatters:
-                      datePicker ? [_dateFormatter] : inputFormatters,
+                  datePicker ? [_dateFormatter] : inputFormatters,
                   onEditingComplete: () {
                     final currentFocus = FocusScope.of(context);
                     if (!currentFocus.hasPrimaryFocus) {
@@ -161,6 +172,17 @@ class InputField extends StatelessWidget {
             controller?.text = dateLabel;
           });
         },
+      );
+    } else if (obscureText != null) {
+      return IconButton(
+        icon: SvgPicture.asset(
+          Assets.eye,
+          width: 17,
+          height: 17,
+        ),
+        padding: const EdgeInsets.only(right: 17, top: 17, bottom: 17),
+        splashRadius: 15,
+        onPressed: onObscureTap,
       );
     }
     return null;

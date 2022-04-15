@@ -88,7 +88,7 @@ class Date extends FormzInput<String, DateError> {
   @override
   DateError? validator(String value) {
     if (value.isEmpty) {
-      return null;
+      return DateError.empty;
     }
     final format = DateFormat('dd.MM.yyyy');
     DateTime date;
@@ -117,6 +117,13 @@ class Height extends FormzInput<String, NumberError> {
     } on Exception {
       return NumberError.format;
     }
+    if (height > 300) {
+      return NumberError.more;
+    }
+    if (height < 50) {
+      return NumberError.less;
+    }
+
     return null;
   }
 }
@@ -133,6 +140,12 @@ class Weight extends FormzInput<String, NumberError> {
       weight = int.parse(value);
     } on Exception {
       return NumberError.format;
+    }
+    if (weight > 200) {
+      return NumberError.more;
+    }
+    if (weight < 20) {
+      return NumberError.less;
     }
     return null;
   }

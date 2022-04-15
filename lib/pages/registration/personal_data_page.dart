@@ -94,7 +94,6 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     keyboardType: TextInputType.text,
                     capitalization: TextCapitalization.sentences,
                     errorString: nameError,
-                    focus: true,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -103,7 +102,6 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     keyboardType: TextInputType.text,
                     controller: _surnameController,
                     errorString: surnameError,
-                    focus: true,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -111,7 +109,6 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     hintText: 'ДД.ММ.ГГГГ',
                     keyboardType: TextInputType.datetime,
                     controller: _dateController,
-                    focus: true,
                     datePicker: true,
                     errorString: dateError,
                   ),

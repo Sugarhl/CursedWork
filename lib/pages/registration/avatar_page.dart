@@ -41,7 +41,7 @@ class AvatarPageState extends State<AvatarPage> {
             children: [
               TopBar(
                 leftAction: () {
-                  context.navigateBack();
+                  context.router.pop();
                 },
               ),
               const SizedBox(height: 113),

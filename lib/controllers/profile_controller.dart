@@ -20,4 +20,6 @@ class ProfileController extends GetxController {
     print('load');
     loaded.value = true;
   }
+
+  Future<void> addDevice(DeviceModel device) async {}
 }
