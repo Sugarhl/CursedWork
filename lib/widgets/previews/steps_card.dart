@@ -99,14 +99,14 @@ class StepsCard extends StatelessWidget {
                       'Шагов сегодня:  ',
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.black,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     Text(
                       data.stepsCount.toInt().toString(),
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.red,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -118,14 +118,14 @@ class StepsCard extends StatelessWidget {
                       'Цель на сегодня:  ',
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.black,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     Text(
                       data.stepsGoal.toInt().toString(),
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.red,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -137,14 +137,14 @@ class StepsCard extends StatelessWidget {
                       'Расстояние по шагам:  ',
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.black,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                     Text(
                       '${data.distance.toString()} км',
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.red,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],

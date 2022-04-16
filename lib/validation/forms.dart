@@ -51,3 +51,28 @@ class BiometicsForm with FormzMixin {
   @override
   List<FormzInput> get inputs => [height, weight];
 }
+
+class SettingsForm with FormzMixin {
+  SettingsForm({
+    required String name,
+    required String surname,
+    required String date,
+    required String height,
+    required String weight,
+  }) {
+    this.name = Name.dirty(value: name);
+    this.surname = Name.dirty(value: surname);
+    this.date = Date.dirty(value: date);
+    this.height = Height.dirty(value: height);
+    this.weight = Weight.dirty(value: weight);
+  }
+
+  late final Date date;
+  late final Name name;
+  late final Name surname;
+  late final Height height;
+  late final Weight weight;
+
+  @override
+  List<FormzInput> get inputs => [height, weight, date, name, surname];
+}

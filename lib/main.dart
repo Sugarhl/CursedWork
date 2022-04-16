@@ -3,6 +3,7 @@ import 'package:cursed_work/controllers/feed_controller.dart';
 import 'package:cursed_work/controllers/profile_controller.dart';
 import 'package:cursed_work/controllers/registration_controller.dart';
 import 'package:cursed_work/controllers/settings_controller.dart';
+import 'package:cursed_work/controllers/stat_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
   final ProfileController profile = Get.put(ProfileController());
   final FeedController feed = Get.put(FeedController());
   final LoginController login = Get.put(LoginController());
+  final StatisticsController statistics = Get.put(StatisticsController());
 
   @override
   Widget build(BuildContext context) {

@@ -11,6 +11,7 @@ import 'package:cursed_work/validation/fields.dart';
 import 'package:cursed_work/validation/forms.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
+import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:formz/formz.dart';
@@ -72,11 +73,11 @@ class AccountPageState extends State<AccountPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 52),
-              // TopBar(
-              //   leftAction: () {
-              //     // context.navigateBack();
-              //   },
-              // ),
+              TopBar(
+                leftAction: () {
+                  context.router.pop();
+                },
+              ),
               const SizedBox(height: 113),
               Text('Аккаунт', style: AppTextStyles.heading2()),
               const SizedBox(height: 34),
@@ -87,7 +88,6 @@ class AccountPageState extends State<AccountPage> {
                 controller: emailController,
                 errorString: emailError,
               ),
-
               const SizedBox(height: 47),
               InputField(
                 label: 'Никнейм',

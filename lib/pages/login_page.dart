@@ -6,6 +6,7 @@ import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/validation/fields.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/top_bar.dart';
@@ -25,6 +26,9 @@ class LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final visible = true.obs;
+  final emailError = ''.obs;
+  final active = false.obs;
+  bool obscure = true;
 
   @override
   void initState() {
@@ -35,6 +39,14 @@ class LoginPageState extends State<LoginPage> {
         sleep(Durations.button);
       }
       visible.value = !vis;
+    });
+
+    emailController.addListener(() {
+      final check = Email.dirty(value: emailController.text);
+      emailError.value = getEmailErrorMessage(
+        check.error,
+      );
+      active.value = check.valid;
     });
   }
 
@@ -62,10 +74,7 @@ class LoginPageState extends State<LoginPage> {
                 hintText: 'Введите почту',
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
-                // focus: true,
-                onChanged: (s) {
-                  setState(() {});
-                },
+                errorString: emailError,
               ),
               const SizedBox(height: 47),
               InputField(
@@ -73,9 +82,11 @@ class LoginPageState extends State<LoginPage> {
                 hintText: 'Введите пароль',
                 keyboardType: TextInputType.text,
                 controller: passwordController,
-                // focus: true,
-                onChanged: (s) {
-                  setState(() {});
+                obscureText: obscure,
+                onObscureTap: () {
+                  setState(() {
+                    obscure = !obscure;
+                  });
                 },
               ),
               const Spacer(),
@@ -86,8 +97,7 @@ class LoginPageState extends State<LoginPage> {
                     onTap: () {
                       loginTap(context);
                     },
-                    unlocked: emailController.text.isNotEmpty &&
-                        passwordController.text.isNotEmpty,
+                    unlocked: active.value,
                   ),
                 ),
               ),

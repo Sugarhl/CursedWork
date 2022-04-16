@@ -6,6 +6,8 @@ import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/validation/fields.dart';
+import 'package:cursed_work/validation/forms.dart';
 import 'package:cursed_work/widgets/avatar_adder.dart';
 import 'package:cursed_work/widgets/gender_button.dart';
 import 'package:cursed_work/widgets/input_field.dart';
@@ -15,6 +17,7 @@ import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,10 +34,48 @@ class SettingsPageState extends State<SettingsPage> {
   final _dateController = TextEditingController();
   final _heightController = TextEditingController();
   final _weightController = TextEditingController();
+  final _activeButton = false.obs;
+
+  final nameError = ''.obs;
+  final surnameError = ''.obs;
+  final dateError = ''.obs;
+  final heightError = ''.obs;
+  final weightError = ''.obs;
 
   @override
   void initState() {
     super.initState();
+
+    _nameController.addListener(() {
+      nameError.value = getNameErrorMessage(
+        Name.dirty(value: _nameController.text).error,
+      );
+      setButton();
+    });
+    _surnameController.addListener(() {
+      surnameError.value = getNameErrorMessage(
+        Name.dirty(value: _surnameController.text).error,
+      );
+      setButton();
+    });
+    _dateController.addListener(() {
+      dateError.value = getDateErrorMessage(
+        Date.dirty(value: _dateController.text).error,
+      );
+      setButton();
+    });
+    _heightController.addListener(() {
+      heightError.value = getHeightErrorMessage(
+        Height.dirty(value: _heightController.text).error,
+      );
+      setButton();
+    });
+    _weightController.addListener(() {
+      weightError.value = getHeightErrorMessage(
+        Weight.dirty(value: _weightController.text).error,
+      );
+      setButton();
+    });
   }
 
   final _preferencesKey = GlobalKey();
@@ -50,7 +91,7 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> setAllFields() async {
-    // await _settingsController.load();
+    await _settingsController.load();
     _nameController.text = _settingsController.name.value;
     _surnameController.text = _settingsController.surname.value;
     final date = _settingsController.date.value;
@@ -124,6 +165,7 @@ class SettingsPageState extends State<SettingsPage> {
                     controller: _nameController,
                     keyboardType: TextInputType.text,
                     capitalization: TextCapitalization.sentences,
+                    errorString: nameError,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -131,6 +173,7 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'Введите пароль еще раз',
                     keyboardType: TextInputType.text,
                     controller: _surnameController,
+                    errorString: surnameError,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -139,6 +182,7 @@ class SettingsPageState extends State<SettingsPage> {
                     keyboardType: TextInputType.datetime,
                     controller: _dateController,
                     datePicker: true,
+                    errorString: dateError,
                   ),
                   const SizedBox(height: 40),
                   Text('Биометрия', style: AppTextStyles.heading2()),
@@ -148,9 +192,7 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'Введите рост',
                     controller: _heightController,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    onChanged: (s) {
-                      setState(() {});
-                    },
+                    errorString: heightError,
                   ),
                   const SizedBox(height: 47),
                   InputField(
@@ -158,6 +200,7 @@ class SettingsPageState extends State<SettingsPage> {
                     hintText: 'Введите вес',
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: _weightController,
+                    errorString: weightError,
                   ),
                   const SizedBox(height: 47),
                   Padding(
@@ -188,19 +231,21 @@ class SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   const SizedBox(height: 50),
-                  AppButton(
-                    text: 'Сохранить',
-                    onTap: () {
-                      _settingsController.updateSettings(
-                        name: _nameController.text,
-                        surname: _surnameController.text,
-                        date: _dateController.text,
-                        height: int.parse(_heightController.text),
-                        weight: int.parse(_weightController.text),
-                      );
-                      context.router.pop();
-                    },
-                    unlocked: true,
+                  Obx(
+                    () => AppButton(
+                      text: 'Сохранить',
+                      onTap: () {
+                        _settingsController.updateSettings(
+                          name: _nameController.text,
+                          surname: _surnameController.text,
+                          date: _dateController.text,
+                          height: int.parse(_heightController.text),
+                          weight: int.parse(_weightController.text),
+                        );
+                        context.router.pop();
+                      },
+                      unlocked: _activeButton.value,
+                    ),
                   ),
                   const SizedBox(height: 50),
                 ],
@@ -210,6 +255,17 @@ class SettingsPageState extends State<SettingsPage> {
         ),
       ),
     );
+  }
+
+  void setButton() {
+    _activeButton.value = SettingsForm(
+                date: _dateController.text,
+                surname: _surnameController.text,
+                name: _nameController.text,
+                height: _heightController.text,
+                weight: _weightController.text)
+            .status ==
+        FormzStatus.valid;
   }
 
   void showSettingsMenu(BuildContext context) {

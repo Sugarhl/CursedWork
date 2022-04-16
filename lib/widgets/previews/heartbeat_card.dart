@@ -59,7 +59,7 @@ class BpmCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 15, bottom: 3),
                     child: Text(
-                      'Сегодня в 19:30',
+                      data.lastMeasuringTime,
                       style: AppTextStyles.mainText().copyWith(
                         color: AppColors.black.withOpacity(0.7),
                       ),

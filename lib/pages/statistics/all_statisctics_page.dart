@@ -1,9 +1,9 @@
+import 'package:cursed_work/controllers/stat_controller.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
-import 'package:cursed_work/utils/models/bpm_model.dart';
-import 'package:cursed_work/utils/models/steps_model.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/widgets/previews/heartbeat_card.dart';
+import 'package:cursed_work/widgets/previews/sleep_card.dart';
 import 'package:cursed_work/widgets/previews/steps_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +22,7 @@ class StatisticsPageState extends State<StatisticsPage> {
   }
 
   final CredentialsRepository credentialsRepository = Get.find();
+  final StatisticsController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +40,26 @@ class StatisticsPageState extends State<StatisticsPage> {
                 style: AppTextStyles.heading2(),
               ),
             ),
-            const SizedBox(height: 20),
-            StepsCard(
-              data: StepsStatisticsModel(
-                stepsGoal: 12000,
-                stepsCount: 5000,
-                distance: 1.5,
+            const SizedBox(height: 30),
+            Obx(
+              () => StepsCard(
+                data: controller.stepsModel.value,
+                onTap: () {},
               ),
-              onTap: () {},
             ),
-            const SizedBox(height: 10),
-            BpmCard(
-              data: BpmStatisticsModel(bpmAverage: 78, bpmLast: 85),
-              onTap: () {},
+            const SizedBox(height: 15),
+            Obx(
+              () => BpmCard(
+                data: controller.bpmModel.value,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(height: 15),
+            Obx(
+              () => SleepCard(
+                data: controller.sleepModel.value,
+                onTap: () {},
+              ),
             ),
           ],
         ),
