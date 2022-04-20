@@ -9,6 +9,7 @@ class AppButton extends StatefulWidget {
     this.swapColors = false,
     Key? key,
     this.height = 50,
+    this.loading = false,
   }) : super(key: key);
 
   final String text;
@@ -16,6 +17,7 @@ class AppButton extends StatefulWidget {
   final VoidCallback onTap;
   final bool unlocked;
   final bool swapColors;
+  final bool loading;
 
   @override
   State<AppButton> createState() => _AppButtonState();
@@ -74,14 +76,22 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
             ],
           ),
           child: Center(
-            child: Text(
-              widget.text,
-              style: AppTextStyles.button1().copyWith(
-                color: widget.unlocked & !widget.swapColors
-                    ? AppColors.white
-                    : AppColors.red,
-              ),
-            ),
+            child: widget.loading
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: CircularProgressIndicator(
+                      color:
+                          widget.swapColors ? AppColors.red : AppColors.light,
+                    ),
+                  )
+                : Text(
+                    widget.text,
+                    style: AppTextStyles.button1().copyWith(
+                      color: widget.unlocked & !widget.swapColors
+                          ? AppColors.white
+                          : AppColors.red,
+                    ),
+                  ),
           ),
         ),
       ),
@@ -93,7 +103,7 @@ class _AppButtonState extends State<AppButton> with TickerProviderStateMixin {
   }
 
   void onTapDown(TapDownDetails details) {
-    if (widget.unlocked) {
+    if (widget.unlocked && !widget.loading) {
       _animationController.forward();
     }
   }

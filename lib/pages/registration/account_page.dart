@@ -72,7 +72,7 @@ class AccountPageState extends State<AccountPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 52),
+              // const SizedBox(height: 52),
               TopBar(
                 leftAction: () {
                   context.router.pop();
@@ -118,7 +118,7 @@ class AccountPageState extends State<AccountPage> {
 
   Future<void> nextAction(BuildContext context) async {
     active.value = false;
-    if (await _loginController.checkLogin(nicknameController.text)) {
+    if (await _loginController.checkLogin(login: nicknameController.text)) {
       await context.navigateTo(const PasswordRouter());
     } else {
       nicknameError.value = 'Никнейм уже занят';

@@ -22,6 +22,19 @@ String metricToLabel(MetricsType type, int value) {
   }
 }
 
+String errorToMessage(AppError error) {
+  switch (error) {
+    case AppError.serverError:
+      return 'Ошибка сервера';
+    case AppError.internalError:
+      return 'Что-то пошло не так...';
+    case AppError.none:
+      return '';
+    case AppError.googleError:
+      return 'Ошибка Google';
+  }
+}
+
 void pagingInit<T>({
   required CompositeSubscription sub,
   required PagingController<int, T> controller,

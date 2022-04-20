@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/pages/init_page.dart';
+import 'package:cursed_work/pages/loading_page.dart';
 import 'package:cursed_work/pages/login_page.dart';
 import 'package:cursed_work/pages/profile/profile_page.dart';
 import 'package:cursed_work/pages/profile/settings_page.dart';
@@ -67,6 +68,11 @@ import 'package:cursed_work/pages/welcome_page.dart';
           path: 'recommendation',
           name: 'RecommendationRouter',
           page: RecommendationPage,
+        ),
+        AutoRoute(
+          path: 'loading',
+          name: 'LoadingRouter',
+          page: LoadingPage,
         ),
         AutoRoute(
           path: 'tabs',

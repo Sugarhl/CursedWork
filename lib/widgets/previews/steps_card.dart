@@ -49,7 +49,7 @@ class StepsCard extends StatelessWidget {
                     pointers: <GaugePointer>[
                       RangePointer(
                         cornerStyle: CornerStyle.endCurve,
-                        value: data.stepsCount + 2000,
+                        value: data.stepsCount,
                         color: AppColors.orange,
                         width: 15,
                       )

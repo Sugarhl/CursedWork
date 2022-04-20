@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/controllers/registration_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/bound.dart';
@@ -23,10 +24,10 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   final CredentialsRepository credentialsRepository = Get.find();
+  final LoginController loginController = Get.find();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final visible = true.obs;
-  final emailError = ''.obs;
   final active = false.obs;
   bool obscure = true;
 
@@ -43,7 +44,7 @@ class LoginPageState extends State<LoginPage> {
 
     emailController.addListener(() {
       final check = Email.dirty(value: emailController.text);
-      emailError.value = getEmailErrorMessage(
+      loginController.emailError.value = getEmailErrorMessage(
         check.error,
       );
       active.value = check.valid;
@@ -74,7 +75,7 @@ class LoginPageState extends State<LoginPage> {
                 hintText: 'Введите почту',
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
-                errorString: emailError,
+                errorString: loginController.emailError,
               ),
               const SizedBox(height: 47),
               InputField(
@@ -93,30 +94,72 @@ class LoginPageState extends State<LoginPage> {
               Obx(
                 () => Visibility(
                   visible: visible.value,
-                  child: AppButton(
-                    onTap: () {
-                      loginTap(context);
-                    },
-                    unlocked: active.value,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Spacer(),
+                          Obx(
+                            () => Padding(
+                              padding: const EdgeInsets.only(bottom: 6),
+                              child: Text(
+                                loginController.remoteError.value,
+                                style: AppTextStyles.mainText()
+                                    .copyWith(color: AppColors.orange),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Obx(
+                        () => AppButton(
+                          onTap: () {
+                            loginTap(context);
+                          },
+                          loading: loginController.remoteLoading.value,
+                          unlocked: active.value,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               Obx(
                 () => Visibility(
                   visible: visible.value,
-                  child: const SizedBox(height: 30),
+                  child: const SizedBox(height: 10),
                 ),
               ),
               Obx(
                 () => Visibility(
                   visible: visible.value,
-                  child: AppButton(
-                    text: 'Войти через Google',
-                    onTap: () {
-                      loginTap(context);
-                    },
-                    unlocked: true,
-                    swapColors: true,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const Spacer(),
+                          Obx(
+                            () => Padding(
+                              padding: const EdgeInsets.only(bottom: 6),
+                              child: Text(
+                                loginController.remoteGoogleError.value,
+                                style: AppTextStyles.mainText()
+                                    .copyWith(color: AppColors.orange),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      AppButton(
+                        text: 'Войти через Google',
+                        onTap: () {
+                          loginGoogleTap(context);
+                        },
+                        loading: loginController.remoteGoogleLoading.value,
+                        unlocked: true,
+                        swapColors: true,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -128,8 +171,24 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  void loginTap(BuildContext context) {
-    credentialsRepository.login('accessToken');
-    context.navigateTo(MainRouter());
+  Future<void> loginTap(BuildContext context) async {
+    final router = context.router;
+
+    final sucsess = await loginController.login(
+      login: emailController.text,
+      password: passwordController.text,
+    );
+
+    if (sucsess) {
+      await router.navigate(MainRouter());
+    }
+  }
+
+  Future<void> loginGoogleTap(BuildContext context) async {
+    final router = context.router;
+    final sucsess = await loginController.loginWithGoogle();
+    if (sucsess) {
+      await router.navigate(MainRouter());
+    }
   }
 }
