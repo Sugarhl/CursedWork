@@ -19,6 +19,7 @@ class RecommendationPreview extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       highlightColor: AppColors.red.withOpacity(0.5),
       splashColor: AppColors.red.withOpacity(0.5),
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),

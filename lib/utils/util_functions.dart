@@ -1,5 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/enums.dart';
+import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rxdart/rxdart.dart';
@@ -63,4 +66,42 @@ void _updateController<T>(
     nextPageKey: scrolledToBottom ? null : feed.length,
     itemList: feed,
   );
+}
+
+Future<void> showAlertDialog(BuildContext context) async {
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ), //this right here
+        child: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppColors.dark,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: Text(
+                'Нет доступа в сеть...',
+                style: AppTextStyles.heading2(),
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Future<bool> checkInetConnection(BuildContext context) async {
+  final connectivityResult = await Connectivity().checkConnectivity();
+  if (connectivityResult == ConnectivityResult.none) {
+    await showAlertDialog(context);
+    return false;
+  }
+  return true;
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/util_functions.dart';
@@ -41,7 +39,6 @@ class LoginController extends GetxController {
     remoteLoading.value = true;
     final res = 'accessToken';
     try {
-      await sleepMy();
     } catch (e) {
       remoteError.value = errorToMessage(AppError.serverError);
       remoteLoading.value = false;
@@ -49,12 +46,10 @@ class LoginController extends GetxController {
     }
     await credentialsRepository.login(res);
     remoteError.value = errorToMessage(AppError.none);
+    remoteLoading.value = false;
     return true;
   }
 
-  Future sleepMy() async {
-    sleep(const Duration(seconds: 3));
-  }
 
   Future<bool> loginWithGoogle() async {
     _refreshErrors();

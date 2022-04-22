@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/registration_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
+import 'package:cursed_work/pages/loading_page.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/utils/util_functions.dart';
 import 'package:cursed_work/validation/fields.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
@@ -173,12 +175,14 @@ class LoginPageState extends State<LoginPage> {
 
   Future<void> loginTap(BuildContext context) async {
     final router = context.router;
-
+    final inet = await checkInetConnection(context);
+    if (!inet) {
+      return;
+    }
     final sucsess = await loginController.login(
       login: emailController.text,
       password: passwordController.text,
     );
-
     if (sucsess) {
       await router.navigate(MainRouter());
     }

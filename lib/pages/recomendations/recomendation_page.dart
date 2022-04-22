@@ -3,6 +3,7 @@ import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/models/recommendation_model.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
+import 'package:cursed_work/widgets/photo_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,7 @@ class RecommendationPageState extends State<RecommendationPage> {
               children: [
                 Row(
                   children: [
+                    const SizedBox(width: 14),
                     GestureDetector(
                       onTap: () {
                         context.router.pop();
@@ -60,9 +62,23 @@ class RecommendationPageState extends State<RecommendationPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   child: Text(
                     widget.recommendation.mainText,
+                    style: AppTextStyles.mainText().copyWith(
+                      color: AppColors.light,
+                    ),
                     softWrap: true,
                   ),
-                )
+                ),
+                const SizedBox(height: 30),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: PhotoViewGallery(
+                    height: 300,
+                    images: [
+                      'https://gipertonium.com/wp-content/uploads/d/e/1/de1b6cbe597bb5c30652e0b7e49671d0.jpg',
+                      // 'https://i.gifer.com/origin/50/50b91baac686f99cbb660ab3bf0dcee0.gif',
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

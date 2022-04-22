@@ -29,6 +29,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
   final nameError = ''.obs;
   final surnameError = ''.obs;
   final dateError = ''.obs;
+  final agree = false.obs;
 
   @override
   void initState() {
@@ -112,7 +113,46 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                     datePicker: true,
                     errorString: dateError,
                   ),
-                  const SizedBox(height: 111),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      Obx(
+                        () => GestureDetector(
+                          onTap: () {
+                            agree.toggle();
+                          },
+                          child: Container(
+                            height: 20,
+                            width: 20,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.dark,
+                              border: Border.all(color: AppColors.light),
+                            ),
+                            child: agree.value
+                                ? Center(
+                                    child: Container(
+                                      height: 10,
+                                      width: 10,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.light,
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Text(
+                        'Согласен(а) с обработкой персональных данных',
+                        style: AppTextStyles.smallText()
+                            .copyWith(color: AppColors.light),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 90),
                   Obx(
                     () => AppButton(
                       onTap: () {
@@ -123,7 +163,7 @@ class PersonalDataPageState extends State<PersonalDataPage> {
                         );
                         context.navigateTo(const BiometricsRouter());
                       },
-                      unlocked: _activeButton.value,
+                      unlocked: _activeButton.value && agree.value,
                     ),
                   ),
                   const SizedBox(height: 30),

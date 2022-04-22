@@ -7,21 +7,25 @@ class LoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.dark.withOpacity(0.5),
+      backgroundColor: AppColors.light.withOpacity(0.2),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 100,
-            width: 100,
-            child: CircularProgressIndicator(
-              color: AppColors.light,
-              strokeWidth: 8,
+          const Center(
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: CircularProgressIndicator(
+                color: AppColors.light,
+                strokeWidth: 8,
+              ),
             ),
           ),
-          Text(
-            'Загрузка...',
-            style: AppTextStyles.heading2(),
+          Center(
+            child: Text(
+              'Загрузка...',
+              style: AppTextStyles.heading2(),
+            ),
           )
         ],
       ),

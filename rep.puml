@@ -1,0 +1,1022 @@
+@startuml
+set namespaceSeparator ::
+
+class "cursed_work::controllers::feed_controller.dart::FeedController" {
+  +CredentialsRepository credentialsRepository
+  -PublishSubject<int> _listUpdated
+  +Mutex mutex
+  +RecommendationModel stab
+  +Stream<int> listUpdated
+  +Future<void> load()
+  +Future<List<RecommendationModel>> getListForFetch()
+  +Future<void> fetch()
+  -Future<void> _updateLocal()
+  +Future<void> reload()
+}
+
+"cursed_work::controllers::feed_controller.dart::FeedController" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+"cursed_work::controllers::feed_controller.dart::FeedController" o-- "rxdart::src::subjects::publish_subject.dart::PublishSubject<int>"
+"cursed_work::controllers::feed_controller.dart::FeedController" o-- "mutex::mutex.dart::Mutex"
+"cursed_work::controllers::feed_controller.dart::FeedController" o-- "cursed_work::utils::models::recommendation_model.dart::RecommendationModel"
+"cursed_work::controllers::feed_controller.dart::FeedController" o-- "dart::async::Stream<int>"
+
+class "cursed_work::controllers::profile_controller.dart::ProfileController" {
+  +List<DeviceModel> devices
+  +CredentialsRepository credentialsRepository
+  +Future<void> load()
+  +Future<void> addDevice()
+}
+
+"cursed_work::controllers::profile_controller.dart::ProfileController" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::controllers::registration_controller.dart::LoginController" {
+  +CredentialsRepository credentialsRepository
+  +Future<bool> checkLogin()
+  +Future<bool> register()
+}
+
+"cursed_work::controllers::registration_controller.dart::LoginController" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::controllers::settings_controller.dart::SettingsController" {
+  +CredentialsRepository credentialsRepository
+  +Future<void> load()
+  +Future<void> updateSettings()
+  +void changeGender()
+}
+
+"cursed_work::controllers::settings_controller.dart::SettingsController" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::controllers::stat_controller.dart::StatisticsController" {
+  +CredentialsRepository credentialsRepository
+  +Future<void> load()
+}
+
+"cursed_work::controllers::stat_controller.dart::StatisticsController" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::grpc::generated::auth.pb.dart::CheckLoginRequest" {
+  {static} -BuilderInfo _i
+  {static} -CheckLoginRequest? _defaultInstance
+  +BuilderInfo info_
+  +String login
+  +CheckLoginRequest clone()
+  +CheckLoginRequest copyWith()
+  {static} +CheckLoginRequest create()
+  +CheckLoginRequest createEmptyInstance()
+  {static} +PbList<CheckLoginRequest> createRepeated()
+  {static} +CheckLoginRequest getDefault()
+  +bool hasLogin()
+  +void clearLogin()
+}
+
+"cursed_work::grpc::generated::auth.pb.dart::CheckLoginRequest" o-- "protobuf::protobuf.dart::BuilderInfo"
+"cursed_work::grpc::generated::auth.pb.dart::CheckLoginRequest" o-- "cursed_work::grpc::generated::auth.pb.dart::CheckLoginRequest"
+"protobuf::protobuf.dart::GeneratedMessage" <|-- "cursed_work::grpc::generated::auth.pb.dart::CheckLoginRequest"
+
+class "cursed_work::grpc::generated::auth.pb.dart::CheckLoginResponse" {
+  {static} -BuilderInfo _i
+  {static} -CheckLoginResponse? _defaultInstance
+  +BuilderInfo info_
+  +Status status
+  +CheckLoginResponse clone()
+  +CheckLoginResponse copyWith()
+  {static} +CheckLoginResponse create()
+  +CheckLoginResponse createEmptyInstance()
+  {static} +PbList<CheckLoginResponse> createRepeated()
+  {static} +CheckLoginResponse getDefault()
+  +bool hasStatus()
+  +void clearStatus()
+}
+
+"cursed_work::grpc::generated::auth.pb.dart::CheckLoginResponse" o-- "protobuf::protobuf.dart::BuilderInfo"
+"cursed_work::grpc::generated::auth.pb.dart::CheckLoginResponse" o-- "cursed_work::grpc::generated::auth.pb.dart::CheckLoginResponse"
+"cursed_work::grpc::generated::auth.pb.dart::CheckLoginResponse" o-- "cursed_work::grpc::generated::auth.pbenum.dart::Status"
+"protobuf::protobuf.dart::GeneratedMessage" <|-- "cursed_work::grpc::generated::auth.pb.dart::CheckLoginResponse"
+
+class "cursed_work::grpc::generated::auth.pb.dart::RegistrationRequest" {
+  {static} -BuilderInfo _i
+  {static} -RegistrationRequest? _defaultInstance
+  +BuilderInfo info_
+  +String login
+  +String password
+  +RegistrationRequest clone()
+  +RegistrationRequest copyWith()
+  {static} +RegistrationRequest create()
+  +RegistrationRequest createEmptyInstance()
+  {static} +PbList<RegistrationRequest> createRepeated()
+  {static} +RegistrationRequest getDefault()
+  +bool hasLogin()
+  +void clearLogin()
+  +bool hasPassword()
+  +void clearPassword()
+}
+
+"cursed_work::grpc::generated::auth.pb.dart::RegistrationRequest" o-- "protobuf::protobuf.dart::BuilderInfo"
+"cursed_work::grpc::generated::auth.pb.dart::RegistrationRequest" o-- "cursed_work::grpc::generated::auth.pb.dart::RegistrationRequest"
+"protobuf::protobuf.dart::GeneratedMessage" <|-- "cursed_work::grpc::generated::auth.pb.dart::RegistrationRequest"
+
+class "cursed_work::grpc::generated::auth.pb.dart::RegistrationResponse" {
+  {static} -BuilderInfo _i
+  {static} -RegistrationResponse? _defaultInstance
+  +BuilderInfo info_
+  +Status status
+  +RegistrationResponse clone()
+  +RegistrationResponse copyWith()
+  {static} +RegistrationResponse create()
+  +RegistrationResponse createEmptyInstance()
+  {static} +PbList<RegistrationResponse> createRepeated()
+  {static} +RegistrationResponse getDefault()
+  +bool hasStatus()
+  +void clearStatus()
+}
+
+"cursed_work::grpc::generated::auth.pb.dart::RegistrationResponse" o-- "protobuf::protobuf.dart::BuilderInfo"
+"cursed_work::grpc::generated::auth.pb.dart::RegistrationResponse" o-- "cursed_work::grpc::generated::auth.pb.dart::RegistrationResponse"
+"cursed_work::grpc::generated::auth.pb.dart::RegistrationResponse" o-- "cursed_work::grpc::generated::auth.pbenum.dart::Status"
+"protobuf::protobuf.dart::GeneratedMessage" <|-- "cursed_work::grpc::generated::auth.pb.dart::RegistrationResponse"
+
+class "cursed_work::grpc::generated::auth.pbenum.dart::Status" {
+  {static} +Status NOTHING
+  {static} +Status SUCCESS
+  {static} +Status CONFLICT
+  {static} +List<Status> values
+  {static} -Map<int, Status> _byValue
+  {static} +Status? valueOf()
+}
+
+"cursed_work::grpc::generated::auth.pbenum.dart::Status" o-- "cursed_work::grpc::generated::auth.pbenum.dart::Status"
+"protobuf::protobuf.dart::ProtobufEnum" <|-- "cursed_work::grpc::generated::auth.pbenum.dart::Status"
+
+class "cursed_work::grpc::generated::auth.pbgrpc.dart::AuthServiceClient" {
+  {static} -ClientMethod<CheckLoginRequest, CheckLoginResponse> _$checkLogin
+  {static} -ClientMethod<RegistrationRequest, RegistrationResponse> _$registration
+  +ResponseFuture<CheckLoginResponse> checkLogin()
+  +ResponseFuture<RegistrationResponse> registration()
+}
+
+"cursed_work::grpc::generated::auth.pbgrpc.dart::AuthServiceClient" o-- "grpc::src::client::method.dart::ClientMethod<CheckLoginRequest, CheckLoginResponse>"
+"cursed_work::grpc::generated::auth.pbgrpc.dart::AuthServiceClient" o-- "grpc::src::client::method.dart::ClientMethod<RegistrationRequest, RegistrationResponse>"
+"grpc::src::client::client.dart::Client" <|-- "cursed_work::grpc::generated::auth.pbgrpc.dart::AuthServiceClient"
+
+abstract class "cursed_work::grpc::generated::auth.pbgrpc.dart::AuthServiceBase" {
+  +String $name
+  +Future<CheckLoginResponse> checkLogin_Pre()
+  +Future<RegistrationResponse> registration_Pre()
+  +Future<CheckLoginResponse> checkLogin()
+  +Future<RegistrationResponse> registration()
+}
+
+"grpc::src::server::service.dart::Service" <|-- "cursed_work::grpc::generated::auth.pbgrpc.dart::AuthServiceBase"
+
+class "cursed_work::main.dart::MyApp" {
+  -AppRouter _appRouter
+  +CredentialsRepository credentialsRepository
+  +SettingsController settings
+  +ProfileController profile
+  +FeedController feed
+  +LoginController login
+  +StatisticsController statistics
+  +Widget build()
+}
+
+"cursed_work::main.dart::MyApp" o-- "cursed_work::navigation::router.gr.dart::AppRouter"
+"cursed_work::main.dart::MyApp" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+"cursed_work::main.dart::MyApp" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+"cursed_work::main.dart::MyApp" o-- "cursed_work::controllers::profile_controller.dart::ProfileController"
+"cursed_work::main.dart::MyApp" o-- "cursed_work::controllers::feed_controller.dart::FeedController"
+"cursed_work::main.dart::MyApp" o-- "cursed_work::controllers::registration_controller.dart::LoginController"
+"cursed_work::main.dart::MyApp" o-- "cursed_work::controllers::stat_controller.dart::StatisticsController"
+
+class "cursed_work::navigation::router.dart::$AppRouter" {
+}
+
+class "cursed_work::navigation::router.gr.dart::AppRouter" {
+  +Map<String, Page<dynamic> Function(RouteData)> pagesMap
+  +List<RouteConfig> routes
+}
+
+"auto_route::src::router::controller::routing_controller.dart::RootStackRouter" <|-- "cursed_work::navigation::router.gr.dart::AppRouter"
+
+class "cursed_work::navigation::router.gr.dart::InitRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::InitRouter"
+
+class "cursed_work::navigation::router.gr.dart::AccountRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::AccountRouter"
+
+class "cursed_work::navigation::router.gr.dart::PasswordRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::PasswordRouter"
+
+class "cursed_work::navigation::router.gr.dart::PersonalDataRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::PersonalDataRouter"
+
+class "cursed_work::navigation::router.gr.dart::BiometricsRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::BiometricsRouter"
+
+class "cursed_work::navigation::router.gr.dart::AvatarRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::AvatarRouter"
+
+class "cursed_work::navigation::router.gr.dart::LoginRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::LoginRouter"
+
+class "cursed_work::navigation::router.gr.dart::SettingsRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::SettingsRouter"
+
+class "cursed_work::navigation::router.gr.dart::WelcomeRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::WelcomeRouter"
+
+class "cursed_work::navigation::router.gr.dart::RecommendationRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::RecommendationRouter"
+
+class "cursed_work::navigation::router.gr.dart::RecommendationRouterArgs" {
+  +RecommendationModel recommendation
+  +String toString()
+}
+
+"cursed_work::navigation::router.gr.dart::RecommendationRouterArgs" o-- "cursed_work::utils::models::recommendation_model.dart::RecommendationModel"
+
+class "cursed_work::navigation::router.gr.dart::MainRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::MainRouter"
+
+class "cursed_work::navigation::router.gr.dart::MainRouterArgs" {
+  +bool firstTime
+  +String toString()
+}
+
+class "cursed_work::navigation::router.gr.dart::FeedRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::FeedRouter"
+
+class "cursed_work::navigation::router.gr.dart::StatisticsRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::StatisticsRouter"
+
+class "cursed_work::navigation::router.gr.dart::ProfileRouter" {
+  {static} +String name
+}
+
+"auto_route::src::route::page_route_info.dart::PageRouteInfo" <|-- "cursed_work::navigation::router.gr.dart::ProfileRouter"
+
+class "cursed_work::pages::init_page.dart::InitPage" {
+  +InitPageState createState()
+}
+
+class "cursed_work::pages::init_page.dart::InitPageState" {
+  -CompositeSubscription _sub
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"cursed_work::pages::init_page.dart::InitPageState" o-- "rxdart::src::utils::composite_subscription.dart::CompositeSubscription"
+
+class "cursed_work::pages::login_page.dart::LoginPage" {
+  +LoginPageState createState()
+}
+
+class "cursed_work::pages::login_page.dart::LoginPageState" {
+  +CredentialsRepository credentialsRepository
+  +bool obscure
+  +void initState()
+  +Widget build()
+  +void loginTap()
+}
+
+"cursed_work::pages::login_page.dart::LoginPageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::pages::profile::profile_page.dart::ProfilePage" {
+  +ProfilePageState createState()
+}
+
+class "cursed_work::pages::profile::profile_page.dart::ProfilePageState" {
+  +CredentialsRepository credentialsRepository
+  -SettingsController _settings
+  -ProfileController _profile
+  +void initState()
+  +Widget build()
+  +Row buildUserMetrics()
+  +Row buildTopBar()
+}
+
+"cursed_work::pages::profile::profile_page.dart::ProfilePageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+"cursed_work::pages::profile::profile_page.dart::ProfilePageState" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+"cursed_work::pages::profile::profile_page.dart::ProfilePageState" o-- "cursed_work::controllers::profile_controller.dart::ProfileController"
+
+class "cursed_work::pages::profile::settings_page.dart::SettingsPage" {
+  +SettingsPageState createState()
+}
+
+class "cursed_work::pages::profile::settings_page.dart::SettingsPageState" {
+  -ImagePicker _picker
+  +CredentialsRepository credentialsRepository
+  -SettingsController _settingsController
+  +void initState()
+  +void didChangeDependencies()
+  +Future<void> setAllFields()
+  +Widget build()
+  +void setButton()
+  +void showSettingsMenu()
+}
+
+"cursed_work::pages::profile::settings_page.dart::SettingsPageState" o-- "image_picker::image_picker.dart::ImagePicker"
+"cursed_work::pages::profile::settings_page.dart::SettingsPageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+"cursed_work::pages::profile::settings_page.dart::SettingsPageState" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+
+class "cursed_work::pages::recomendations::feed_page.dart::FeedPage" {
+  +FeedPageState createState()
+}
+
+class "cursed_work::pages::recomendations::feed_page.dart::FeedPageState" {
+  +FeedController feedController
+  -bool _initialized
+  -CompositeSubscription _sub
+  -PagingController<int, RecommendationModel> _pagingController
+  +CredentialsRepository credentialsRepository
+  +void initState()
+  -Future<void> _fetch()
+  +void didChangeDependencies()
+  +void dispose()
+  +Widget build()
+}
+
+"cursed_work::pages::recomendations::feed_page.dart::FeedPageState" o-- "cursed_work::controllers::feed_controller.dart::FeedController"
+"cursed_work::pages::recomendations::feed_page.dart::FeedPageState" o-- "rxdart::src::utils::composite_subscription.dart::CompositeSubscription"
+"cursed_work::pages::recomendations::feed_page.dart::FeedPageState" o-- "infinite_scroll_pagination::src::core::paging_controller.dart::PagingController<int, RecommendationModel>"
+"cursed_work::pages::recomendations::feed_page.dart::FeedPageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::pages::recomendations::recomendation_page.dart::RecommendationPage" {
+  +RecommendationModel recommendation
+  +RecommendationPageState createState()
+}
+
+"cursed_work::pages::recomendations::recomendation_page.dart::RecommendationPage" o-- "cursed_work::utils::models::recommendation_model.dart::RecommendationModel"
+
+class "cursed_work::pages::recomendations::recomendation_page.dart::RecommendationPageState" {
+  +CredentialsRepository credentialsRepository
+  +void initState()
+  +Widget build()
+}
+
+"cursed_work::pages::recomendations::recomendation_page.dart::RecommendationPageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+
+class "cursed_work::pages::registration::account_page.dart::AccountPage" {
+  +AccountPageState createState()
+}
+
+class "cursed_work::pages::registration::account_page.dart::AccountPageState" {
+  -SettingsController _settingsController
+  -LoginController _loginController
+  +void initState()
+  +Widget build()
+  +Future<void> nextAction()
+  +void setButton()
+}
+
+"cursed_work::pages::registration::account_page.dart::AccountPageState" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+"cursed_work::pages::registration::account_page.dart::AccountPageState" o-- "cursed_work::controllers::registration_controller.dart::LoginController"
+
+class "cursed_work::pages::registration::avatar_page.dart::AvatarPage" {
+  +AvatarPageState createState()
+}
+
+class "cursed_work::pages::registration::avatar_page.dart::AvatarPageState" {
+  -ImagePicker _picker
+  -SettingsController _settingsController
+  +void initState()
+  +Widget build()
+}
+
+"cursed_work::pages::registration::avatar_page.dart::AvatarPageState" o-- "image_picker::image_picker.dart::ImagePicker"
+"cursed_work::pages::registration::avatar_page.dart::AvatarPageState" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+
+class "cursed_work::pages::registration::biometrics_page.dart::BiometricsPage" {
+  +BiometricsPageState createState()
+}
+
+class "cursed_work::pages::registration::biometrics_page.dart::BiometricsPageState" {
+  -SettingsController _settingsController
+  +void initState()
+  +void setActive()
+  +Widget build()
+}
+
+"cursed_work::pages::registration::biometrics_page.dart::BiometricsPageState" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+
+class "cursed_work::pages::registration::password_page.dart::PasswordPage" {
+  +PasswordPageState createState()
+}
+
+class "cursed_work::pages::registration::password_page.dart::PasswordPageState" {
+  +bool obscure
+  +void initState()
+  +void didChangeDependencies()
+  +Widget build()
+}
+
+class "cursed_work::pages::registration::personal_data_page.dart::PersonalDataPage" {
+  +PersonalDataPageState createState()
+}
+
+class "cursed_work::pages::registration::personal_data_page.dart::PersonalDataPageState" {
+  -SettingsController _settingsController
+  +void initState()
+  +void setButton()
+  +Widget build()
+}
+
+"cursed_work::pages::registration::personal_data_page.dart::PersonalDataPageState" o-- "cursed_work::controllers::settings_controller.dart::SettingsController"
+
+class "cursed_work::pages::statistics::all_statisctics_page.dart::StatisticsPage" {
+  +StatisticsPageState createState()
+}
+
+class "cursed_work::pages::statistics::all_statisctics_page.dart::StatisticsPageState" {
+  +CredentialsRepository credentialsRepository
+  +StatisticsController controller
+  +void initState()
+  +Widget build()
+}
+
+"cursed_work::pages::statistics::all_statisctics_page.dart::StatisticsPageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+"cursed_work::pages::statistics::all_statisctics_page.dart::StatisticsPageState" o-- "cursed_work::controllers::stat_controller.dart::StatisticsController"
+
+class "cursed_work::pages::tabs_page.dart::TabPage" {
+  +bool firstTime
+  +State<TabPage> createState()
+}
+
+class "cursed_work::pages::tabs_page.dart::_TabPageState" {
+  +CredentialsRepository credentialsRepository
+  +void initState()
+  +void didChangeDependencies()
+  +void dispose()
+  +Widget build()
+}
+
+"cursed_work::pages::tabs_page.dart::_TabPageState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsRepository"
+"flutter::src::widgets::binding.dart::WidgetsBindingObserver" <|-- "cursed_work::pages::tabs_page.dart::_TabPageState"
+
+class "cursed_work::pages::welcome_page.dart::WelcomePage" {
+  +WelcomePageState createState()
+}
+
+class "cursed_work::pages::welcome_page.dart::WelcomePageState" {
+  +void initState()
+  +Widget build()
+}
+
+class "cursed_work::repositories::credentials_repository.dart::CredentialsRepository" {
+  -SharedPreferences? _prefs
+  -GrpcOrGrpcWebClientChannel _authServiceChanel
+  -Future<SharedPreferences> _getPrefs()
+  +Future<void> logout()
+  +Future<void> login()
+  +Future<void> restoreCredentials()
+  +T client()
+}
+
+"cursed_work::repositories::credentials_repository.dart::CredentialsRepository" o-- "shared_preferences::shared_preferences.dart::SharedPreferences"
+"cursed_work::repositories::credentials_repository.dart::CredentialsRepository" o-- "grpc::grpc_or_grpcweb.dart::GrpcOrGrpcWebClientChannel"
+
+class "cursed_work::repositories::credentials_repository.dart::CredentialsState" {
+  +int index
+  {static} +List<CredentialsState> values
+  {static} +CredentialsState idle
+  {static} +CredentialsState loggedIn
+  {static} +CredentialsState loggedOut
+}
+
+"cursed_work::repositories::credentials_repository.dart::CredentialsState" o-- "cursed_work::repositories::credentials_repository.dart::CredentialsState"
+"dart::core::Enum" <|-- "cursed_work::repositories::credentials_repository.dart::CredentialsState"
+
+abstract class "cursed_work::utils::assets.dart::Assets" {
+  {static} +String backward_mark
+  {static} +String bpm
+  {static} +String calendar
+  {static} +String camera_plus
+  {static} +String female
+  {static} +String male
+  {static} +String options
+  {static} +String placeholder
+  {static} +String plus
+  {static} +String recommendations
+  {static} +String settings
+  {static} +String smart_watch
+  {static} +String stats
+  {static} +String steps
+  {static} +String user
+  {static} +String eye
+  {static} +String moon
+}
+
+abstract class "cursed_work::utils::bound.dart::DateBounds" {
+  {static} +DateTime left
+  {static} +DateTime right
+}
+
+abstract class "cursed_work::utils::bound.dart::Durations" {
+  {static} +Duration button
+}
+
+class "cursed_work::utils::enums.dart::Gender" {
+  +int index
+  {static} +List<Gender> values
+  {static} +Gender none
+  {static} +Gender male
+  {static} +Gender female
+}
+
+"cursed_work::utils::enums.dart::Gender" o-- "cursed_work::utils::enums.dart::Gender"
+"dart::core::Enum" <|-- "cursed_work::utils::enums.dart::Gender"
+
+class "cursed_work::utils::enums.dart::SettingsMenuAction" {
+  +int index
+  {static} +List<SettingsMenuAction> values
+  {static} +SettingsMenuAction logout
+}
+
+"cursed_work::utils::enums.dart::SettingsMenuAction" o-- "cursed_work::utils::enums.dart::SettingsMenuAction"
+"dart::core::Enum" <|-- "cursed_work::utils::enums.dart::SettingsMenuAction"
+
+class "cursed_work::utils::enums.dart::RecommendationLevel" {
+  +int index
+  {static} +List<RecommendationLevel> values
+  {static} +RecommendationLevel info
+  {static} +RecommendationLevel warning
+}
+
+"cursed_work::utils::enums.dart::RecommendationLevel" o-- "cursed_work::utils::enums.dart::RecommendationLevel"
+"dart::core::Enum" <|-- "cursed_work::utils::enums.dart::RecommendationLevel"
+
+class "cursed_work::utils::enums.dart::BottomBarItem" {
+  +int index
+  {static} +List<BottomBarItem> values
+  {static} +BottomBarItem recommendations
+  {static} +BottomBarItem statistics
+  {static} +BottomBarItem profile
+}
+
+"cursed_work::utils::enums.dart::BottomBarItem" o-- "cursed_work::utils::enums.dart::BottomBarItem"
+"dart::core::Enum" <|-- "cursed_work::utils::enums.dart::BottomBarItem"
+
+class "cursed_work::utils::enums.dart::MetricsType" {
+  +int index
+  {static} +List<MetricsType> values
+  {static} +MetricsType bpm
+  {static} +MetricsType steps
+}
+
+"cursed_work::utils::enums.dart::MetricsType" o-- "cursed_work::utils::enums.dart::MetricsType"
+"dart::core::Enum" <|-- "cursed_work::utils::enums.dart::MetricsType"
+
+class "cursed_work::utils::models::bpm_model.dart::BpmStatisticsModel" {
+  +int bpmLast
+  +int bpmAverage
+  +String lastMeasuringTime
+}
+
+abstract class "cursed_work::utils::models::device_model.dart::Model" {
+}
+
+class "cursed_work::utils::models::device_model.dart::DeviceModel" {
+  +String name
+  +String id
+}
+
+"cursed_work::utils::models::device_model.dart::Model" <|-- "cursed_work::utils::models::device_model.dart::DeviceModel"
+
+class "cursed_work::utils::models::recommendation_model.dart::RecommendationModel" {
+  +RecommendationLevel level
+  +String id
+  +String title
+  +String mainText
+  +String date
+  +List<String>? media
+}
+
+"cursed_work::utils::models::recommendation_model.dart::RecommendationModel" o-- "cursed_work::utils::enums.dart::RecommendationLevel"
+
+class "cursed_work::utils::models::sleep_model.dart::SleepStatisticsModel" {
+  +int currentMark
+  +double hours
+  +String lastSleepTime
+  +int averageMark
+}
+
+class "cursed_work::utils::models::steps_model.dart::StepsStatisticsModel" {
+  +double stepsCount
+  +double stepsGoal
+  +double distance
+}
+
+abstract class "cursed_work::utils::sizes.dart::AppSizes" {
+  {static} +double pageInset
+}
+
+abstract class "cursed_work::utils::ui_kit.dart::AppTextStyles" {
+  {static} +TextStyle heading1()
+  {static} +TextStyle heading2()
+  {static} +TextStyle button1()
+  {static} +TextStyle bigText()
+  {static} +TextStyle button2()
+  {static} +TextStyle mainText()
+  {static} +TextStyle smallText()
+  {static} +TextStyle input()
+  {static} +TextStyle inter()
+}
+
+abstract class "cursed_work::utils::ui_kit.dart::AppColors" {
+  {static} +Color light
+  {static} +Color white
+  {static} +Color red
+  {static} +Color dark
+  {static} +Color hintText
+  {static} +Color black
+  {static} +Color orange
+  {static} +Color heart
+}
+
+"cursed_work::utils::ui_kit.dart::AppColors" o-- "dart::ui::Color"
+
+class "cursed_work::validation::fields.dart::Nickname" {
+  +NicknameError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Nickname"
+
+class "cursed_work::validation::fields.dart::Email" {
+  +EmailError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Email"
+
+class "cursed_work::validation::fields.dart::Name" {
+  +NameError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Name"
+
+class "cursed_work::validation::fields.dart::Password" {
+  +PasswordError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Password"
+
+class "cursed_work::validation::fields.dart::Date" {
+  +DateError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Date"
+
+class "cursed_work::validation::fields.dart::Height" {
+  +NumberError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Height"
+
+class "cursed_work::validation::fields.dart::Weight" {
+  +NumberError? validator()
+}
+
+"formz::formz.dart::FormzInput" <|-- "cursed_work::validation::fields.dart::Weight"
+
+class "cursed_work::validation::fields.dart::NicknameError" {
+  +int index
+  {static} +List<NicknameError> values
+  {static} +NicknameError empty
+  {static} +NicknameError size
+  {static} +NicknameError unique
+}
+
+"cursed_work::validation::fields.dart::NicknameError" o-- "cursed_work::validation::fields.dart::NicknameError"
+"dart::core::Enum" <|-- "cursed_work::validation::fields.dart::NicknameError"
+
+class "cursed_work::validation::fields.dart::DateError" {
+  +int index
+  {static} +List<DateError> values
+  {static} +DateError empty
+  {static} +DateError format
+}
+
+"cursed_work::validation::fields.dart::DateError" o-- "cursed_work::validation::fields.dart::DateError"
+"dart::core::Enum" <|-- "cursed_work::validation::fields.dart::DateError"
+
+class "cursed_work::validation::fields.dart::EmailError" {
+  +int index
+  {static} +List<EmailError> values
+  {static} +EmailError empty
+  {static} +EmailError format
+}
+
+"cursed_work::validation::fields.dart::EmailError" o-- "cursed_work::validation::fields.dart::EmailError"
+"dart::core::Enum" <|-- "cursed_work::validation::fields.dart::EmailError"
+
+class "cursed_work::validation::fields.dart::NameError" {
+  +int index
+  {static} +List<NameError> values
+  {static} +NameError empty
+}
+
+"cursed_work::validation::fields.dart::NameError" o-- "cursed_work::validation::fields.dart::NameError"
+"dart::core::Enum" <|-- "cursed_work::validation::fields.dart::NameError"
+
+class "cursed_work::validation::fields.dart::NumberError" {
+  +int index
+  {static} +List<NumberError> values
+  {static} +NumberError empty
+  {static} +NumberError format
+  {static} +NumberError less
+  {static} +NumberError more
+}
+
+"cursed_work::validation::fields.dart::NumberError" o-- "cursed_work::validation::fields.dart::NumberError"
+"dart::core::Enum" <|-- "cursed_work::validation::fields.dart::NumberError"
+
+class "cursed_work::validation::fields.dart::PasswordError" {
+  +int index
+  {static} +List<PasswordError> values
+  {static} +PasswordError empty
+  {static} +PasswordError uppercase
+  {static} +PasswordError digits
+  {static} +PasswordError lowercase
+  {static} +PasswordError specialCharacters
+  {static} +PasswordError size
+}
+
+"cursed_work::validation::fields.dart::PasswordError" o-- "cursed_work::validation::fields.dart::PasswordError"
+"dart::core::Enum" <|-- "cursed_work::validation::fields.dart::PasswordError"
+
+class "cursed_work::validation::forms.dart::AccountForm" {
+  +Email email
+  +Nickname nickname
+  +List<FormzInput<dynamic, dynamic>> inputs
+}
+
+"cursed_work::validation::forms.dart::AccountForm" o-- "cursed_work::validation::fields.dart::Email"
+"cursed_work::validation::forms.dart::AccountForm" o-- "cursed_work::validation::fields.dart::Nickname"
+"formz::formz.dart::FormzMixin" <|-- "cursed_work::validation::forms.dart::AccountForm"
+
+class "cursed_work::validation::forms.dart::PersonalForm" {
+  +Date date
+  +Name name
+  +Name surname
+  +List<FormzInput<dynamic, dynamic>> inputs
+}
+
+"cursed_work::validation::forms.dart::PersonalForm" o-- "cursed_work::validation::fields.dart::Date"
+"cursed_work::validation::forms.dart::PersonalForm" o-- "cursed_work::validation::fields.dart::Name"
+"formz::formz.dart::FormzMixin" <|-- "cursed_work::validation::forms.dart::PersonalForm"
+
+class "cursed_work::validation::forms.dart::BiometicsForm" {
+  +Height height
+  +Weight weight
+  +List<FormzInput<dynamic, dynamic>> inputs
+}
+
+"cursed_work::validation::forms.dart::BiometicsForm" o-- "cursed_work::validation::fields.dart::Height"
+"cursed_work::validation::forms.dart::BiometicsForm" o-- "cursed_work::validation::fields.dart::Weight"
+"formz::formz.dart::FormzMixin" <|-- "cursed_work::validation::forms.dart::BiometicsForm"
+
+class "cursed_work::validation::forms.dart::SettingsForm" {
+  +Date date
+  +Name name
+  +Name surname
+  +Height height
+  +Weight weight
+  +List<FormzInput<dynamic, dynamic>> inputs
+}
+
+"cursed_work::validation::forms.dart::SettingsForm" o-- "cursed_work::validation::fields.dart::Date"
+"cursed_work::validation::forms.dart::SettingsForm" o-- "cursed_work::validation::fields.dart::Name"
+"cursed_work::validation::forms.dart::SettingsForm" o-- "cursed_work::validation::fields.dart::Height"
+"cursed_work::validation::forms.dart::SettingsForm" o-- "cursed_work::validation::fields.dart::Weight"
+"formz::formz.dart::FormzMixin" <|-- "cursed_work::validation::forms.dart::SettingsForm"
+
+class "cursed_work::widgets::avatar.dart::Avatar" {
+  +double size
+  +String? url
+  +String localPath
+  +Widget build()
+}
+
+class "cursed_work::widgets::avatar_adder.dart::AvatarAdder" {
+  +double? progress
+  +double size
+  +String localPath
+  +String? remotePath
+  +bool loading
+  +bool smallCamera
+  +void Function()? onPressed
+  +Widget build()
+}
+
+"cursed_work::widgets::avatar_adder.dart::AvatarAdder" o-- "null::void Function()"
+
+class "cursed_work::widgets::bottom_bar.dart::BottomBar" {
+  +void Function(int) onTap
+  +State<StatefulWidget> createState()
+}
+
+"cursed_work::widgets::bottom_bar.dart::BottomBar" o-- "null::void Function(int)"
+
+class "cursed_work::widgets::bottom_bar.dart::BottomBarState" {
+  +BottomBarItem currentPage
+  +Widget build()
+}
+
+"cursed_work::widgets::bottom_bar.dart::BottomBarState" o-- "cursed_work::utils::enums.dart::BottomBarItem"
+
+class "cursed_work::widgets::gender_button.dart::GenderButton" {
+  +Gender gender
+  +void Function() onTap
+  +bool active
+  +State<GenderButton> createState()
+}
+
+"cursed_work::widgets::gender_button.dart::GenderButton" o-- "cursed_work::utils::enums.dart::Gender"
+"cursed_work::widgets::gender_button.dart::GenderButton" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::gender_button.dart::_GenderButtonState" {
+  +double scale
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +void onTapUp()
+  +void onTapDown()
+  +void onTapCancel()
+}
+
+"flutter::src::widgets::ticker_provider.dart::TickerProviderStateMixin" <|-- "cursed_work::widgets::gender_button.dart::_GenderButtonState"
+
+class "cursed_work::widgets::input_field.dart::InputField" {
+  +String label
+  +String? hintText
+  +String? suffixText
+  +double? height
+  +bool focus
+  +void Function()? onEditingComplete
+  +List<TextInputFormatter>? inputFormatters
+  +bool enabled
+  +bool datePicker
+  +bool? obscureText
+  +void Function()? onObscureTap
+  -DateTime _date
+  -MaskTextInputFormatter _dateFormatter
+  +Widget build()
+  +IconButton? buildDatePicker()
+}
+
+"cursed_work::widgets::input_field.dart::InputField" o-- "dart::ui::void Function()"
+"cursed_work::widgets::input_field.dart::InputField" o-- "mask_text_input_formatter::mask_text_input_formatter.dart::MaskTextInputFormatter"
+
+class "cursed_work::widgets::main_button.dart::AppButton" {
+  +String text
+  +double height
+  +void Function() onTap
+  +bool unlocked
+  +bool swapColors
+  +State<AppButton> createState()
+}
+
+"cursed_work::widgets::main_button.dart::AppButton" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::main_button.dart::_AppButtonState" {
+  +double scale
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +void onTapUp()
+  +void onTapDown()
+  +void onTapCancel()
+}
+
+"flutter::src::widgets::ticker_provider.dart::TickerProviderStateMixin" <|-- "cursed_work::widgets::main_button.dart::_AppButtonState"
+
+class "cursed_work::widgets::previews::device_preview.dart::DevicePreview" {
+  +DeviceModel? device
+  +void Function()? onTap
+  +State<StatefulWidget> createState()
+}
+
+"cursed_work::widgets::previews::device_preview.dart::DevicePreview" o-- "cursed_work::utils::models::device_model.dart::DeviceModel"
+"cursed_work::widgets::previews::device_preview.dart::DevicePreview" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::previews::device_preview.dart::DevicePreviewState" {
+  +double scale
+  +void initState()
+  +void dispose()
+  +Widget build()
+  +Widget buildNormal()
+  +Widget buildPlus()
+  +void onTapUp()
+  +void onTapDown()
+  +void onTapCancel()
+}
+
+"flutter::src::widgets::ticker_provider.dart::TickerProviderStateMixin" <|-- "cursed_work::widgets::previews::device_preview.dart::DevicePreviewState"
+
+class "cursed_work::widgets::previews::heartbeat_card.dart::BpmCard" {
+  +BpmStatisticsModel data
+  +void Function() onTap
+  +Widget build()
+}
+
+"cursed_work::widgets::previews::heartbeat_card.dart::BpmCard" o-- "cursed_work::utils::models::bpm_model.dart::BpmStatisticsModel"
+"cursed_work::widgets::previews::heartbeat_card.dart::BpmCard" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::previews::metrics_preview.dart::MetricsPreview" {
+  +MetricsType type
+  +int value
+  +Widget build()
+}
+
+"cursed_work::widgets::previews::metrics_preview.dart::MetricsPreview" o-- "cursed_work::utils::enums.dart::MetricsType"
+
+class "cursed_work::widgets::previews::recommendation_preview.dart::RecommendationPreview" {
+  +RecommendationModel data
+  +void Function() onTap
+  +Widget build()
+}
+
+"cursed_work::widgets::previews::recommendation_preview.dart::RecommendationPreview" o-- "cursed_work::utils::models::recommendation_model.dart::RecommendationModel"
+"cursed_work::widgets::previews::recommendation_preview.dart::RecommendationPreview" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::previews::sleep_card.dart::SleepCard" {
+  +SleepStatisticsModel data
+  +void Function() onTap
+  +Widget build()
+}
+
+"cursed_work::widgets::previews::sleep_card.dart::SleepCard" o-- "cursed_work::utils::models::sleep_model.dart::SleepStatisticsModel"
+"cursed_work::widgets::previews::sleep_card.dart::SleepCard" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::previews::steps_card.dart::StepsCard" {
+  +StepsStatisticsModel data
+  +void Function() onTap
+  +Widget build()
+}
+
+"cursed_work::widgets::previews::steps_card.dart::StepsCard" o-- "cursed_work::utils::models::steps_model.dart::StepsStatisticsModel"
+"cursed_work::widgets::previews::steps_card.dart::StepsCard" o-- "dart::ui::void Function()"
+
+class "cursed_work::widgets::settings_menu.dart::PostMenu" {
+  +void Function() onLogout
+  +double height
+  +bool represents()
+  +State<StatefulWidget> createState()
+}
+
+"cursed_work::widgets::settings_menu.dart::PostMenu" o-- "null::void Function()"
+
+class "cursed_work::widgets::settings_menu.dart::_PostMenuState" {
+  +Widget build()
+}
+
+class "cursed_work::widgets::top_bar.dart::TopBar" {
+  +String leftLabel
+  +String centerLabel
+  +void Function()? leftAction
+  +void Function()? rightAction
+  +bool disableCurve
+  +Widget build()
+}
+
+"cursed_work::widgets::top_bar.dart::TopBar" o-- "dart::ui::void Function()"
+
+
+@enduml
