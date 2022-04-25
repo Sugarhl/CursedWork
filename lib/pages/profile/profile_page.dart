@@ -26,6 +26,12 @@ class ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _settings.load();
+  }
+
   final _preferencesKey = GlobalKey();
   final CredentialsRepository credentialsRepository = Get.find();
   final SettingsController _settings = Get.find();

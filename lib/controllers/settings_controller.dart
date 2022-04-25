@@ -9,9 +9,9 @@ class SettingsController extends GetxController {
   final username = 'sugarhl'.obs;
   final name = 'Никита'.obs;
   final surname = 'Сахаров'.obs;
-  final date = ''.obs;
+  final date = '26.03.2001'.obs;
   final height = Int64(170).obs;
-  final weight = Int64(1).obs;
+  final weight = Int64(68).obs;
   final gender = Gender.male.obs;
   final avatarRemote = ''.obs;
   final avatarLocal = ''.obs;
@@ -20,8 +20,7 @@ class SettingsController extends GetxController {
 
   Future<void> load() async {
     loaded.value = false;
-    //ToDo:: Send request to get profile data
-    print('load');
+    avatarLocal.value = await credentialsRepository.getAvatar();
     loaded.value = true;
   }
 
@@ -40,7 +39,11 @@ class SettingsController extends GetxController {
     this.name.value = name ?? this.name.value;
     this.surname.value = surname ?? this.surname.value;
     this.date.value = date ?? this.date.value;
-    this.avatarLocal.value = avatarLocal ?? this.avatarLocal.value;
+
+    if (avatarLocal != null) {
+      this.avatarLocal.value = avatarLocal;
+      await credentialsRepository.setAvatar(avatarLocal);
+    }
     this.gender.value = gender ?? this.gender.value;
     this.height.value = Int64(height ?? this.height.value.toInt());
     this.weight.value = Int64(weight ?? this.weight.value.toInt());

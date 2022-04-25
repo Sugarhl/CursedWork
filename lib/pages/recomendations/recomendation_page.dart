@@ -69,16 +69,15 @@ class RecommendationPageState extends State<RecommendationPage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: PhotoViewGallery(
-                    height: 300,
-                    images: [
-                      'https://gipertonium.com/wp-content/uploads/d/e/1/de1b6cbe597bb5c30652e0b7e49671d0.jpg',
-                      // 'https://i.gifer.com/origin/50/50b91baac686f99cbb660ab3bf0dcee0.gif',
-                    ],
+                if (widget.recommendation.media != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: PhotoViewGallery(
+                      height: 250,
+                      images: widget.recommendation.media!,
+                    ),
                   ),
-                ),
+                const SizedBox(height: 40),
               ],
             ),
           ),

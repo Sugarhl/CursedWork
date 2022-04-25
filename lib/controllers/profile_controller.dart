@@ -1,3 +1,4 @@
+import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/models/device_model.dart';
 import 'package:get/get.dart';
@@ -14,10 +15,13 @@ class ProfileController extends GetxController {
   ].obs;
 
   final CredentialsRepository credentialsRepository = Get.find();
+  final SettingsController _settingsController = Get.find();
 
   Future<void> load() async {
     loaded.value = false;
-    print('load');
+
+    await _settingsController.load();
+    // print('load');
     loaded.value = true;
   }
 

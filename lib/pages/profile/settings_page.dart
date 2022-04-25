@@ -150,7 +150,9 @@ class SettingsPageState extends State<SettingsPage> {
                             source: ImageSource.gallery,
                           );
                           if (image != null) {
-                            _settingsController.avatarLocal.value = image.path;
+                            await _settingsController.updateSettings(
+                              avatarLocal: image.path,
+                            );
                           }
                         },
                       ),

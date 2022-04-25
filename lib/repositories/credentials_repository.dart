@@ -62,4 +62,14 @@ class CredentialsRepository extends GetxController {
     }
     throw Exception('Client type not found');
   }
+
+  Future<void> setAvatar(String path) async {
+    final prefs = await _getPrefs();
+    await prefs.setString('avatar', path);
+  }
+
+  Future<String> getAvatar() async {
+    final prefs = await _getPrefs();
+    return prefs.getString('avatar') ?? '';
+  }
 }
