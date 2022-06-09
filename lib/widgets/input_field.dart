@@ -28,6 +28,7 @@ class InputField extends StatelessWidget {
     this.obscureText,
     this.onObscureTap,
     this.suffixText,
+    this.maxLines = 1,
   }) : super(key: key);
 
   final String label;
@@ -47,6 +48,7 @@ class InputField extends StatelessWidget {
   final bool datePicker;
   final bool? obscureText;
   final VoidCallback? onObscureTap;
+  final int maxLines;
 
   DateTime _date = DateTime.now();
   final _dateFormatter = MaskTextInputFormatter(
@@ -69,13 +71,12 @@ class InputField extends StatelessWidget {
               const Spacer(),
               if (errorString != null)
                 Obx(
-                      () =>
-                  (errorString?.isNotEmpty)!
+                  () => (errorString?.isNotEmpty)!
                       ? Text(
-                    (errorString?.value)!,
-                    style: AppTextStyles.mainText()
-                        .copyWith(color: AppColors.orange),
-                  )
+                          (errorString?.value)!,
+                          style: AppTextStyles.mainText()
+                              .copyWith(color: AppColors.orange),
+                        )
                       : const SizedBox.shrink(),
                 ),
             ],
@@ -85,20 +86,19 @@ class InputField extends StatelessWidget {
           children: [
             if (errorString != null)
               Obx(
-                    () =>
-                    Container(
-                      height: height ?? 53,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        color: (errorString?.isNotEmpty)!
-                            ? AppColors.orange
-                            : AppColors.red,
-                      ),
-                    ),
+                () => Container(
+                  height: height ?? 53,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: (errorString?.isNotEmpty)!
+                        ? AppColors.orange
+                        : AppColors.red,
+                  ),
+                ),
               ),
             Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: 1.5, horizontal: 1.5),
+                  const EdgeInsets.symmetric(vertical: 1.5, horizontal: 1.5),
               child: Container(
                 height: height ?? 50,
                 decoration: BoxDecoration(
@@ -111,6 +111,7 @@ class InputField extends StatelessWidget {
                   controller: controller,
                   cursorColor: AppColors.black,
                   keyboardType: keyboardType,
+                  maxLines: maxLines,
                   decoration: InputDecoration(
                       contentPadding: contentPadding ??
                           const EdgeInsets.symmetric(
@@ -128,7 +129,7 @@ class InputField extends StatelessWidget {
                   onChanged: onChanged,
                   obscureText: obscureText ?? false,
                   inputFormatters:
-                  datePicker ? [_dateFormatter] : inputFormatters,
+                      datePicker ? [_dateFormatter] : inputFormatters,
                   onEditingComplete: () {
                     final currentFocus = FocusScope.of(context);
                     if (!currentFocus.hasPrimaryFocus) {

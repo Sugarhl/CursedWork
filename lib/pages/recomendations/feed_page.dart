@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cursed_work/controllers/feed_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/repositories/credentials_repository.dart';
+import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/models/recommendation_model.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/utils/util_functions.dart';
 import 'package:cursed_work/widgets/previews/recommendation_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:rxdart/rxdart.dart' as reactive;
@@ -65,17 +67,58 @@ class FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(35),
+        preferredSize: const Size.fromHeight(40),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.only(left: AppSizes.pageInset, bottom: 3),
-                child: Text(
-                  'Рекомендации',
-                  style: AppTextStyles.heading2(),
+                    const EdgeInsets.only(left: AppSizes.pageInset, bottom: 8),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 5),
+                    GestureDetector(
+                      onTap: () {
+                        context.router.pop();
+                      },
+                      child: SvgPicture.asset(
+                        Assets.backward_mark,
+                        color: AppColors.light,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Новости',
+                      style: AppTextStyles.heading2(),
+                    ),
+                    // const Spacer(),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     context
+                    //         .navigateTo(CreatePostRouter(channel: 'channel'));
+                    //   },
+                    //   child: SvgPicture.asset(
+                    //     Assets.recommendations,
+                    //     height: 20,
+                    //     width: 20,
+                    //     color: AppColors.light,
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 20),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     context.navigateTo(const SettingsRouter());
+                    //   },
+                    //   child: SvgPicture.asset(
+                    //     Assets.user,
+                    //     height: 20,
+                    //     width: 20,
+                    //     color: AppColors.light,
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 20),
+                  ],
                 ),
               ),
             ],

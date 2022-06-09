@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/controllers/settings_controller.dart';
 import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/bound.dart';
 import 'package:cursed_work/utils/sizes.dart';
@@ -8,20 +9,21 @@ import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/validation/fields.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
-import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 
-class PasswordPage extends StatefulWidget {
-  const PasswordPage({Key? key}) : super(key: key);
+class EmailPage extends StatefulWidget {
+  const EmailPage({Key? key}) : super(key: key);
 
   @override
-  PasswordPageState createState() => PasswordPageState();
+  EmailPageState createState() => EmailPageState();
 }
 
-class PasswordPageState extends State<PasswordPage> {
-  TextEditingController passwordController = TextEditingController();
+class EmailPageState extends State<EmailPage> {
+  final SettingsController settingsController = Get.find();
+
+  TextEditingController emailController = TextEditingController();
   TextEditingController repeatedController = TextEditingController();
 
   final visible = false.obs;
@@ -41,19 +43,19 @@ class PasswordPageState extends State<PasswordPage> {
       visible.value = !vis;
     });
 
-    passwordController.addListener(() {
-      passwordError.value = getPasswordErrorMessage(
-        Password.dirty(value: passwordController.text).error,
+    emailController.addListener(() {
+      passwordError.value = getEmailErrorMessage(
+        Email.dirty(value: emailController.text).error,
       );
-      if (passwordController.text != repeatedController.text) {
-        repeatedError.value = 'Пароли не совпадают';
+      if (emailController.text != repeatedController.text) {
+        repeatedError.value = 'Почты не совпадают';
       } else {
         repeatedError.value = '';
       }
     });
     repeatedController.addListener(() {
-      if (passwordController.text != repeatedController.text) {
-        repeatedError.value = 'Пароли не совпадают';
+      if (emailController.text != repeatedController.text) {
+        repeatedError.value = 'Почты не совпадают';
       } else {
         repeatedError.value = '';
       }
@@ -76,40 +78,28 @@ class PasswordPageState extends State<PasswordPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TopBar(
-                leftAction: () {
-                  context.router.pop();
-                },
-              ),
-              const SizedBox(height: 113),
-              Text('Безопасность', style: AppTextStyles.heading2()),
-              const SizedBox(height: 34),
+              // TopBar(
+              //   leftAction: () {
+              //     context.router.pop();
+              //   },
+              // ),
+              const SizedBox(height: 30),
+              Text('SUDDENLY THE NEWS', style: AppTextStyles.heading1()),
+              const SizedBox(height: 70),
               InputField(
-                label: 'Пароль',
-                hintText: 'Введите пароль',
-                keyboardType: TextInputType.visiblePassword,
-                controller: passwordController,
+                label: 'Почта',
+                hintText: 'Введите почту',
+                keyboardType: TextInputType.emailAddress,
+                controller: emailController,
                 errorString: passwordError,
-                obscureText: obscure,
-                onObscureTap: () {
-                  setState(() {
-                    obscure = !obscure;
-                  });
-                },
               ),
               const SizedBox(height: 47),
               InputField(
-                label: 'Подтвердите пароль',
-                hintText: 'Введите пароль еще раз',
-                keyboardType: TextInputType.visiblePassword,
+                label: 'Подтвердите почту',
+                hintText: 'Введите почту еще раз',
+                keyboardType: TextInputType.emailAddress,
                 controller: repeatedController,
-                obscureText: obscure,
                 errorString: repeatedError,
-                onObscureTap: () {
-                  setState(() {
-                    obscure = !obscure;
-                  });
-                },
               ),
               const Spacer(),
               Obx(
@@ -117,11 +107,13 @@ class PasswordPageState extends State<PasswordPage> {
                   visible: visible.value,
                   child: AppButton(
                     onTap: () {
-                      context.navigateTo(const PersonalDataRouter());
+                      settingsController.updateSettings(
+                        email: emailController.text,
+                      );
+                      context.navigateTo(const ChannelsRouter());
                     },
-                    unlocked:
-                        Password.dirty(value: passwordController.text).valid &&
-                            repeatedController.text == passwordController.text,
+                    unlocked: Email.dirty(value: emailController.text).valid &&
+                        repeatedController.text == emailController.text,
                   ),
                 ),
               ),

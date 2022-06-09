@@ -7,9 +7,6 @@ import 'package:cursed_work/utils/enums.dart';
 import 'package:cursed_work/utils/sizes.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:cursed_work/validation/fields.dart';
-import 'package:cursed_work/validation/forms.dart';
-import 'package:cursed_work/widgets/avatar_adder.dart';
-import 'package:cursed_work/widgets/gender_button.dart';
 import 'package:cursed_work/widgets/input_field.dart';
 import 'package:cursed_work/widgets/main_button.dart';
 import 'package:cursed_work/widgets/settings_menu.dart';
@@ -17,7 +14,6 @@ import 'package:cursed_work/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -29,7 +25,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> {
-  final _nameController = TextEditingController();
+  final _email = TextEditingController();
   final _surnameController = TextEditingController();
   final _dateController = TextEditingController();
   final _heightController = TextEditingController();
@@ -46,9 +42,9 @@ class SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
 
-    _nameController.addListener(() {
+    _email.addListener(() {
       nameError.value = getNameErrorMessage(
-        Name.dirty(value: _nameController.text).error,
+        Name.dirty(value: _email.text).error,
       );
       setButton();
     });
@@ -92,12 +88,10 @@ class SettingsPageState extends State<SettingsPage> {
 
   Future<void> setAllFields() async {
     await _settingsController.load();
-    _nameController.text = _settingsController.name.value;
-    _surnameController.text = _settingsController.surname.value;
-    final date = _settingsController.date.value;
-    _dateController.text = date;
-    _heightController.text = _settingsController.height.value.toString();
-    _weightController.text = _settingsController.weight.value.toString();
+    _email.text = _settingsController.email.value;
+    _email.addListener(() {
+      setButton();
+    });
   }
 
   @override
@@ -112,146 +106,56 @@ class SettingsPageState extends State<SettingsPage> {
               overscroll.disallowIndicator();
               return false;
             },
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TopBar(
-                    leftAction: () {
-                      context.navigateBack();
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TopBar(
+                  leftAction: () {
+                    context.navigateBack();
+                  },
+                  rightAction: () {
+                    showSettingsMenu(context);
+                  },
+                  rightWidget: SizedBox(
+                    key: _preferencesKey,
+                    width: 24,
+                    height: 24,
+                    child: Center(
+                      child: SvgPicture.asset(
+                        Assets.options,
+                        width: 28,
+                        height: 7,
+                        color: AppColors.light,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 70),
+                Text('Ваши данные', style: AppTextStyles.heading2()),
+                const SizedBox(height: 34),
+                InputField(
+                  label: 'Почта',
+                  hintText: 'Введите почту',
+                  controller: _email,
+                  keyboardType: TextInputType.text,
+                  capitalization: TextCapitalization.sentences,
+                  errorString: nameError,
+                ),
+                const Spacer(),
+                Obx(
+                  () => AppButton(
+                    text: 'Сохранить',
+                    onTap: () {
+                      _settingsController.updateSettings(
+                        email: _email.text,
+                      );
+                      context.router.pop();
                     },
-                    rightAction: () {
-                      showSettingsMenu(context);
-                    },
-                    rightWidget: SizedBox(
-                      key: _preferencesKey,
-                      width: 24,
-                      height: 24,
-                      child: Center(
-                        child: SvgPicture.asset(
-                          Assets.options,
-                          width: 28,
-                          height: 7,
-                          color: AppColors.light,
-                        ),
-                      ),
-                    ),
+                    unlocked: _activeButton.value,
                   ),
-                  const SizedBox(height: 50),
-                  Obx(
-                    () => Center(
-                      child: AvatarAdder(
-                        loading: true,
-                        localPath: _settingsController.avatarLocal.value,
-                        size: 150,
-                        smallCamera: true,
-                        onPressed: () async {
-                          final image = await _picker.pickImage(
-                            source: ImageSource.gallery,
-                          );
-                          if (image != null) {
-                            await _settingsController.updateSettings(
-                              avatarLocal: image.path,
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Text('Персональные данные', style: AppTextStyles.heading2()),
-                  const SizedBox(height: 34),
-                  InputField(
-                    label: 'Имя',
-                    hintText: 'Введите имя',
-                    controller: _nameController,
-                    keyboardType: TextInputType.text,
-                    capitalization: TextCapitalization.sentences,
-                    errorString: nameError,
-                  ),
-                  const SizedBox(height: 47),
-                  InputField(
-                    label: 'Фамилия',
-                    hintText: 'Введите пароль еще раз',
-                    keyboardType: TextInputType.text,
-                    controller: _surnameController,
-                    errorString: surnameError,
-                  ),
-                  const SizedBox(height: 47),
-                  InputField(
-                    label: 'Дата рождения',
-                    hintText: 'ДД.ММ.ГГГГ',
-                    keyboardType: TextInputType.datetime,
-                    controller: _dateController,
-                    datePicker: true,
-                    errorString: dateError,
-                  ),
-                  const SizedBox(height: 40),
-                  Text('Биометрия', style: AppTextStyles.heading2()),
-                  const SizedBox(height: 34),
-                  InputField(
-                    label: 'Рост',
-                    hintText: 'Введите рост',
-                    controller: _heightController,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    errorString: heightError,
-                  ),
-                  const SizedBox(height: 47),
-                  InputField(
-                    label: 'Вес',
-                    hintText: 'Введите вес',
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: _weightController,
-                    errorString: weightError,
-                  ),
-                  const SizedBox(height: 47),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 7),
-                    child: Text('Пол', style: AppTextStyles.button1()),
-                  ),
-                  Row(
-                    children: [
-                      Obx(
-                        () => GenderButton(
-                          gender: Gender.male,
-                          onTap: _settingsController.changeGender,
-                          active:
-                              _settingsController.gender.value == Gender.male,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Obx(
-                        () => GenderButton(
-                          gender: Gender.female,
-                          onTap: _settingsController.changeGender,
-                          active:
-                              _settingsController.gender.value == Gender.female,
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 50),
-                  Obx(
-                    () => AppButton(
-                      text: 'Сохранить',
-                      onTap: () {
-                        _settingsController.updateSettings(
-                          name: _nameController.text,
-                          surname: _surnameController.text,
-                          date: _dateController.text,
-                          height: int.parse(_heightController.text),
-                          weight: int.parse(_weightController.text),
-                        );
-                        context.router.pop();
-                      },
-                      unlocked: _activeButton.value,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                ],
-              ),
+                ),
+                const SizedBox(height: 50),
+              ],
             ),
           ),
         ),
@@ -260,14 +164,7 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   void setButton() {
-    _activeButton.value = SettingsForm(
-                date: _dateController.text,
-                surname: _surnameController.text,
-                name: _nameController.text,
-                height: _heightController.text,
-                weight: _weightController.text)
-            .status ==
-        FormzStatus.valid;
+    _activeButton.value = Email.dirty(value: _email.text).valid;
   }
 
   void showSettingsMenu(BuildContext context) {
@@ -287,7 +184,7 @@ class SettingsPageState extends State<SettingsPage> {
         PostMenu(
           onLogout: () {
             credentialsRepository.logout();
-            context.router.replaceAll([const WelcomeRouter()]);
+            context.router.replaceAll([const EmailRouter()]);
             Navigator.pop<SettingsMenuAction>(
               context,
               SettingsMenuAction.logout,

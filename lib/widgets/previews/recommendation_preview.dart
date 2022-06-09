@@ -49,11 +49,6 @@ class RecommendationPreview extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 5),
-              Text(
-                data.date,
-                style: AppTextStyles.mainText().copyWith(color: AppColors.dark),
-              ),
               const SizedBox(height: 10),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 130),

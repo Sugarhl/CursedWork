@@ -1,17 +1,18 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cursed_work/navigation/router.gr.dart';
 import 'package:cursed_work/utils/assets.dart';
-import 'package:cursed_work/utils/models/device_model.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DevicePreview extends StatefulWidget {
-  const DevicePreview({Key? key, required this.device, this.onTap})
+  const DevicePreview(
+      {Key? key, required this.channel, this.onTap, required this.subscribe})
       : super(key: key);
 
-  const DevicePreview.plus({Key? key, required this.onTap, this.device})
-      : super(key: key);
-  final DeviceModel? device;
+  final String channel;
   final VoidCallback? onTap;
+  final bool subscribe;
 
   @override
   State<StatefulWidget> createState() {
@@ -51,42 +52,73 @@ class DevicePreviewState extends State<DevicePreview>
       onTapCancel: onTapCancel,
       onTapUp: onTapUp,
       onTapDown: onTapDown,
-      child: (widget.device == null) ? buildPlus() : buildNormal(),
+      child: buildNormal(),
     );
   }
+
+  bool active = false;
 
   Widget buildNormal() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: AppColors.light,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 12, bottom: 12, left: 15),
-        child: Text(
-          (widget.device?.name)!,
-          style: AppTextStyles.button2().copyWith(
-            color: AppColors.dark,
-          ),
+    return GestureDetector(
+      onTap: () {
+        context.navigateTo(const FeedRouter());
+      },
+      child: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: AppColors.light,
         ),
-      ),
-    );
-  }
-
-  Widget buildPlus() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: AppColors.red,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 12, bottom: 12, right: 15),
-        child: Center(
-          child: SvgPicture.asset(
-            Assets.plus,
-            height: 30,
-            width: 30,
-            color: AppColors.light,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12, bottom: 12, left: 25),
+          child: Row(
+            children: [
+              Text(
+                widget.channel,
+                style: AppTextStyles.heading2().copyWith(
+                  color: AppColors.dark,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  context.navigateTo(CreatePostRouter(channel: 'channel'));
+                },
+                child: SvgPicture.asset(
+                  Assets.plus,
+                  height: 30,
+                  width: 30,
+                  color: AppColors.red,
+                ),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    active = !active;
+                  });
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: active
+                        ? AppColors.red
+                        : AppColors.light.withOpacity(0.3),
+                    border: Border.all(color: AppColors.red, width: 2),
+                  ),
+                  child: Text(
+                    active ? 'Подписаться' : 'Отписаться',
+                    style: AppTextStyles.bigText().copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: active ? AppColors.light : AppColors.dark,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+            ],
           ),
         ),
       ),

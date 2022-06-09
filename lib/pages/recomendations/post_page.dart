@@ -3,21 +3,19 @@ import 'package:cursed_work/repositories/credentials_repository.dart';
 import 'package:cursed_work/utils/assets.dart';
 import 'package:cursed_work/utils/models/recommendation_model.dart';
 import 'package:cursed_work/utils/ui_kit.dart';
-import 'package:cursed_work/widgets/photo_tag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class RecommendationPage extends StatefulWidget {
-  const RecommendationPage({Key? key, required this.recommendation})
-      : super(key: key);
+class PostPage extends StatefulWidget {
+  const PostPage({Key? key, required this.recommendation}) : super(key: key);
   final RecommendationModel recommendation;
 
   @override
-  RecommendationPageState createState() => RecommendationPageState();
+  PostPageState createState() => PostPageState();
 }
 
-class RecommendationPageState extends State<RecommendationPage> {
+class PostPageState extends State<PostPage> {
   @override
   void initState() {
     super.initState();
@@ -68,15 +66,6 @@ class RecommendationPageState extends State<RecommendationPage> {
                     softWrap: true,
                   ),
                 ),
-                const SizedBox(height: 30),
-                if (widget.recommendation.media != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: PhotoViewGallery(
-                      height: 250,
-                      images: widget.recommendation.media!,
-                    ),
-                  ),
                 const SizedBox(height: 40),
               ],
             ),

@@ -48,23 +48,6 @@ class BottomBarState extends State<BottomBar> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    currentPage = BottomBarItem.statistics;
-                  });
-                  widget.onTap.call(BottomBarItem.statistics.index);
-                },
-                child: SvgPicture.asset(
-                  Assets.stats,
-                  height: 35,
-                  width: 35,
-                  color: currentPage == BottomBarItem.statistics
-                      ? AppColors.red
-                      : AppColors.light,
-                ),
-              ),
-              const Spacer(flex: 2),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
                     currentPage = BottomBarItem.profile;
                   });
                   widget.onTap.call(BottomBarItem.profile.index);
